@@ -359,7 +359,7 @@
       localStorage.setItem("comve_orders", JSON.stringify(orders));
 
       // Direct WhatsApp Order Notification
-      const waNumber = "919999999999"; // Replace with your WhatsApp Business number
+      const waNumber = "919870388432"; // Replace with your WhatsApp Business number
       const waMessage = encodeURIComponent(`Hi COMVÉ Team, I would like to place an order for:\n- Pack: Pack of ${selectedPack}\n- Total: ₹${currentPrice}\n- Payment: Prepaid UPI\nPlease share delivery details.`);
       window.open(`https://wa.me/${waNumber}?text=${waMessage}`, "_blank");
     }
