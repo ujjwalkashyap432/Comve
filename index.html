@@ -6,6 +6,7 @@
   <title>COMVÉ | Precision Hair Oil & Serum Applicator Comb</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Official Razorpay Checkout Script -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script>
     tailwind.config = {
@@ -31,7 +32,7 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
   </style>
 </head>
-<body class="bg-[#FAFAFA] text-[#18181B] font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-[#FAFAFA] text-[#18181B] font-sans antialiased min-h-screen flex flex-col justify-between pb-24 md:pb-0">
 
   <!-- TOP BANNER -->
   <div class="bg-brand-black text-white text-xs py-2 px-4 text-center font-medium tracking-wide">
@@ -125,16 +126,19 @@
       </div>
 
       <!-- PRICE CARD -->
-      <div class="bg-white border border-stone-200 rounded-xl p-4 flex flex-col gap-3 shadow-sm">
+      <div class="bg-white border border-stone-200 rounded-xl p-4 flex flex-col gap-2.5 shadow-sm">
         <div class="flex items-baseline gap-3">
           <span id="hero-price" class="text-3xl font-black text-stone-900">₹284</span>
           <span id="hero-mrp" class="text-stone-400 line-through text-base">₹699</span>
           <span id="hero-discount-pill" class="bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200">
-            SAVE ₹415 (Includes ₹15 UPI OFF)
+            59% OFF
           </span>
         </div>
 
-        <div class="bg-emerald-50/70 border border-emerald-200 rounded-lg p-2.5 flex items-center justify-between text-xs">
+        <!-- Inclusive of all taxes note -->
+        <p class="text-[11px] text-stone-500 font-medium">Inclusive of all taxes</p>
+
+        <div class="bg-emerald-50/70 border border-emerald-200 rounded-lg p-2.5 flex items-center justify-between text-xs mt-1">
           <div class="flex items-center gap-2">
             <span class="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">UPI AUTO-APPLIED</span>
             <span class="text-emerald-950 font-medium">Extra ₹15 instant discount applied for Prepaid Orders</span>
@@ -157,6 +161,7 @@
               <div class="text-right">
                 <span class="text-[11px] text-stone-400 line-through block">₹699</span>
                 <span class="font-black text-sm text-brand-black">₹284</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">59% OFF</span>
               </div>
             </div>
             <p class="text-[10px] text-stone-500 mt-2">₹299 base – ₹15 UPI off</p>
@@ -173,6 +178,7 @@
               <div class="text-right">
                 <span class="text-[11px] text-stone-400 line-through block">₹1,399</span>
                 <span class="font-black text-sm text-brand-black">₹530</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">62% OFF</span>
               </div>
             </div>
             <p class="text-[10px] text-stone-500 mt-2">₹545 base – ₹15 UPI off</p>
@@ -229,15 +235,15 @@
         </div>
       </div>
 
-      <!-- ACTION BUTTONS: VIEW CART & PAY WITH RAZORPAY -->
+      <!-- ACTION BUTTONS: VIEW CART & BUY NOW -->
       <div class="flex flex-col sm:flex-row gap-3">
         <button onclick="toggleCart(true)" class="sm:w-1/3 bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
           <i data-lucide="shopping-bag" class="w-4 h-4"></i>
           <span>View Cart</span>
         </button>
         <button onclick="openShippingModal()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
-          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-          <span id="cta-button-text">PAY NOW (UPI / RAZORPAY) — ₹284</span>
+          <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+          <span>BUY NOW</span>
         </button>
       </div>
 
@@ -248,6 +254,25 @@
       </div>
     </div>
   </main>
+
+  <!-- FIXED STICKY BOTTOM CHECKOUT BAR (VISIBLE ON SCROLL) -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex flex-col">
+        <div class="flex items-baseline gap-2">
+          <span id="sticky-price" class="text-lg font-black text-stone-900">₹284</span>
+          <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹699</span>
+          <span id="sticky-discount" class="text-xs font-bold text-emerald-700">59% OFF</span>
+        </div>
+        <span class="text-[10px] text-stone-500">Inclusive of all taxes • Free Delivery</span>
+      </div>
+
+      <button onclick="openShippingModal()" class="bg-brand-black hover:bg-stone-800 text-white px-8 py-3 rounded-xl font-bold text-sm flex items-center gap-2 shadow-md transition-transform active:scale-[0.98]">
+        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        <span>BUY NOW</span>
+      </button>
+    </div>
+  </div>
 
   <!-- CART SLIDE-OUT DRAWER -->
   <div id="cart-drawer-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden transition-opacity"></div>
@@ -294,7 +319,7 @@
         <i data-lucide="tag" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
         <div>
           <p class="font-semibold">Instant UPI Discount Applied</p>
-          <p class="text-[11px] text-emerald-800 mt-0.5">₹15 OFF per pack + Free Express Shipping included.</p>
+          <p class="text-[11px] text-emerald-800 mt-0.5">Includes taxes + Free Express Delivery.</p>
         </div>
       </div>
     </div>
@@ -315,20 +340,23 @@
           <span class="text-emerald-700 font-semibold uppercase text-[10px]">FREE EXPRESS</span>
         </div>
         <div class="border-t border-stone-200 pt-2 flex justify-between text-sm font-black text-stone-900">
-          <span>Final Total</span>
+          <div>
+            <span>Final Total</span>
+            <span class="block text-[10px] font-normal text-stone-500">Inclusive of all taxes</span>
+          </div>
           <span id="cart-summary-total">₹284</span>
         </div>
       </div>
 
       <button onclick="toggleCart(false); openShippingModal();" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-md">
-        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-        <span>PROCEED TO SHIPPING & PAYMENT</span>
+        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        <span>BUY NOW</span>
       </button>
       <p class="text-[10px] text-center text-stone-400">100% Replacement Guarantee • Non-Returnable Personal Care Item</p>
     </div>
   </div>
 
-  <!-- SHIPPING DETAILS MODAL (OPTION 1) -->
+  <!-- SHIPPING DETAILS MODAL -->
   <div id="shipping-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b pb-3 mb-4">
@@ -336,7 +364,7 @@
           <h3 class="font-bold text-lg text-stone-900 flex items-center gap-2">
             <i data-lucide="map-pin" class="w-5 h-5 text-emerald-600"></i> Delivery Address
           </h3>
-          <p class="text-xs text-stone-500 mt-0.5">Enter shipping details to ensure safe dispatch</p>
+          <p class="text-xs text-stone-500 mt-0.5">Order confirmation receipt will be emailed instantly</p>
         </div>
         <button onclick="closeShippingModal()" class="text-stone-400 hover:text-stone-700">
           <i data-lucide="x" class="w-5 h-5"></i>
@@ -350,7 +378,12 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-stone-700 mb-1">Mobile Number (For Courier Tracking & WhatsApp) *</label>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Email Address (For Instant Order Confirmation) *</label>
+          <input type="email" id="cust-email" required placeholder="e.g. ramesh@gmail.com" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Mobile Number (For Courier Delivery Call) *</label>
           <div class="flex">
             <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold">+91</span>
             <input type="tel" id="cust-phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full border border-stone-300 rounded-r-lg px-3 py-2 text-sm focus:border-black outline-none">
@@ -358,7 +391,7 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-stone-700 mb-1">Complete Street Address (House/Flat No, Landmark) *</label>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Complete Street Address (Flat/House No, Landmark) *</label>
           <textarea id="cust-address" required rows="2" placeholder="e.g. Flat 302, Palm Heights, Near City Mall" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none"></textarea>
         </div>
 
@@ -381,11 +414,45 @@
         <div class="pt-2">
           <button type="submit" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
             <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
-            <span id="shipping-btn-text">PROCEED TO PAY VIA RAZORPAY — ₹284</span>
+            <span id="shipping-btn-text">PAY & CONFIRM ORDER</span>
           </button>
-          <p class="text-[10px] text-center text-stone-400 mt-2">Encrypted 256-Bit Payment Gateway with Instant UPI</p>
+          <p class="text-[10px] text-center text-stone-400 mt-2">Official 256-Bit Razorpay Gateway (UPI, Cards, NetBanking)</p>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ORDER SUCCESS CONFIRMATION MODAL -->
+  <div id="success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 text-center">
+      <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-xl font-extrabold text-stone-900">Order Placed Successfully!</h3>
+      <p class="text-xs text-stone-600 mt-1">Thank you for your purchase. A payment & order confirmation receipt has been sent to your email.</p>
+
+      <div class="bg-stone-50 border border-stone-200 rounded-xl p-3.5 my-4 text-left text-xs space-y-1.5 text-stone-700">
+        <div class="flex justify-between">
+          <span class="text-stone-500">Payment ID:</span>
+          <span id="success-payment-id" class="font-mono font-bold text-stone-900">pay_xxx</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Item:</span>
+          <span id="success-product-title" class="font-bold text-stone-900">Pack of 1</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Total Paid:</span>
+          <span id="success-amount" class="font-black text-stone-900">₹284</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Delivery Status:</span>
+          <span class="text-emerald-700 font-semibold">Dispatching in 24 Hours</span>
+        </div>
+      </div>
+
+      <button onclick="closeSuccessModal()" class="w-full bg-brand-black text-white py-3 rounded-xl font-bold text-sm">
+        Done
+      </button>
     </div>
   </div>
 
@@ -437,10 +504,9 @@
     lucide.createIcons();
 
     // ==========================================
-    // CONFIGURATION: RAZORPAY & WHATSAPP
+    // CONFIGURATION: RAZORPAY TEST KEY ID
     // ==========================================
-    const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM"; // <--- PUT YOUR REAL RAZORPAY KEY ID HERE
-    const MY_WHATSAPP_NUMBER = "919870388432";       // <--- PUT YOUR 10-DIGIT WHATSAPP NUMBER HERE
+    const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM";
 
     // Gallery Logic
     const productImages = [
@@ -485,8 +551,8 @@
     let selectedQuantity = 1;
 
     const variants = {
-      1: { name: "Pack of 1 (Single User Kit)", price: 284, mrp: 699 },
-      2: { name: "Pack of 2 (Double Value Kit)", price: 530, mrp: 1399 }
+      1: { name: "Pack of 1 (Single User Kit)", price: 284, mrp: 699, discountPct: "59% OFF" },
+      2: { name: "Pack of 2 (Double Value Kit)", price: 530, mrp: 1399, discountPct: "62% OFF" }
     };
 
     function recalculateAll() {
@@ -500,9 +566,13 @@
       // Update main product area
       document.getElementById("hero-price").innerText = "₹" + totalAmount;
       document.getElementById("hero-mrp").innerText = "₹" + totalMrp;
-      document.getElementById("hero-discount-pill").innerText = `SAVE ₹${totalSavings} (Includes ₹${15 * selectedQuantity} UPI OFF)`;
-      document.getElementById("cta-button-text").innerText = `PAY NOW (UPI / RAZORPAY) — ₹${totalAmount}`;
+      document.getElementById("hero-discount-pill").innerText = v.discountPct;
       document.getElementById("page-quantity").innerText = selectedQuantity;
+
+      // Update sticky bottom checkout bar
+      document.getElementById("sticky-price").innerText = "₹" + totalAmount;
+      document.getElementById("sticky-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("sticky-discount").innerText = v.discountPct;
 
       // Update header & drawer badge count
       document.getElementById("header-cart-count").innerText = selectedQuantity;
@@ -518,7 +588,7 @@
       document.getElementById("cart-summary-total").innerText = "₹" + totalAmount;
 
       // Update modal button
-      document.getElementById("shipping-btn-text").innerText = `PROCEED TO PAY VIA RAZORPAY — ₹${totalAmount}`;
+      document.getElementById("shipping-btn-text").innerText = `PAY & CONFIRM ORDER — ₹${totalAmount}`;
     }
 
     function selectVariant(pack) {
@@ -572,6 +642,11 @@
       document.getElementById("shipping-modal").classList.add("hidden");
     }
 
+    // Order Success Modal Controls
+    function closeSuccessModal() {
+      document.getElementById("success-modal").classList.add("hidden");
+    }
+
     // Temporary storage for customer shipping details
     let customerShippingData = {};
 
@@ -580,6 +655,7 @@
       
       customerShippingData = {
         name: document.getElementById("cust-name").value.trim(),
+        email: document.getElementById("cust-email").value.trim(),
         phone: document.getElementById("cust-phone").value.trim(),
         address: document.getElementById("cust-address").value.trim(),
         city: document.getElementById("cust-city").value.trim(),
@@ -591,7 +667,7 @@
       triggerRazorpay();
     }
 
-    // Razorpay Integration with Customer Details
+    // Razorpay Integration
     function triggerRazorpay() {
       const v = variants[selectedPack];
       const totalAmount = v.price * selectedQuantity;
@@ -607,7 +683,7 @@
         "handler": function (response) {
           const paymentId = response.razorpay_payment_id;
 
-          // 1. Save Complete Order & Address to LocalStorage for Admin
+          // 1. Save Complete Order & Address into LocalStorage (Admin Panel)
           let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
           orders.push({
             item: `${v.name} (Qty: ${selectedQuantity})`,
@@ -618,28 +694,15 @@
           });
           localStorage.setItem("comve_orders", JSON.stringify(orders));
 
-          // 2. Format Complete WhatsApp Notification
-          const waMessage = encodeURIComponent(
-            `*NEW ORDER RECEIVED — COMVÉ Scalp Applicator*\n\n` +
-            `*Product:* ${v.name}\n` +
-            `*Quantity:* ${selectedQuantity}\n` +
-            `*Total Paid:* ₹${totalAmount}\n` +
-            `*Payment Status:* SUCCESSFUL\n` +
-            `*Razorpay Payment ID:* ${paymentId}\n\n` +
-            `*DELIVERY ADDRESS DETAILS:*\n` +
-            `• *Name:* ${customerShippingData.name}\n` +
-            `• *Phone:* ${customerShippingData.phone}\n` +
-            `• *Address:* ${customerShippingData.address}\n` +
-            `• *City:* ${customerShippingData.city}\n` +
-            `• *Pincode:* ${customerShippingData.pincode}\n` +
-            `• *State:* ${customerShippingData.state}`
-          );
-
-          // 3. Auto-redirect to WhatsApp
-          window.location.href = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${waMessage}`;
+          // 2. Open In-App Confirmation Modal (No WhatsApp redirect required)
+          document.getElementById("success-payment-id").innerText = paymentId;
+          document.getElementById("success-product-title").innerText = `${v.name} × ${selectedQuantity}`;
+          document.getElementById("success-amount").innerText = `₹${totalAmount}`;
+          document.getElementById("success-modal").classList.remove("hidden");
         },
         "prefill": {
           "name": customerShippingData.name,
+          "email": customerShippingData.email,
           "contact": customerShippingData.phone
         },
         "theme": {
@@ -697,13 +760,14 @@
             <div>
               <div class="font-bold text-stone-900">${o.item}</div>
               <div class="text-[10px] text-stone-500">${o.date}</div>
-              ${o.paymentId ? `<div class="text-[10px] text-emerald-700 font-mono">ID: ${o.paymentId}</div>` : ''}
+              ${o.paymentId ? `<div class="text-[10px] text-emerald-700 font-mono font-semibold">Payment ID: ${o.paymentId}</div>` : ''}
             </div>
             <div class="font-black text-sm text-stone-900">${o.amount}</div>
           </div>
           ${o.customer ? `
             <div class="text-[11px] text-stone-700 space-y-0.5 pt-1">
               <div><strong>Customer:</strong> ${o.customer.name} (📞 ${o.customer.phone})</div>
+              <div><strong>Email:</strong> ${o.customer.email}</div>
               <div><strong>Address:</strong> ${o.customer.address}, ${o.customer.city}, ${o.customer.state} - ${o.customer.pincode}</div>
             </div>
           ` : ''}
