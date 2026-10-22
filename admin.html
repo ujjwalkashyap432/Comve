@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COMVÉ | Merchant Order Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-stone-100 text-stone-900 font-sans antialiased min-h-screen">
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-view" class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-stone-200 max-w-sm w-full text-center">
+      <div class="w-12 h-12 bg-stone-900 text-white rounded-xl flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="lock" class="w-6 h-6"></i>
+      </div>
+      <h1 class="text-xl font-bold tracking-wide">COMVÉ Admin</h1>
+      <p class="text-xs text-stone-500 mt-1 mb-6">Enter PIN to access order fulfillment</p>
+      
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+        <input type="password" id="admin-pin" placeholder="Enter PIN (Default: 1234)" autofocus required
+          class="w-full text-center tracking-widest text-lg py-2.5 px-4 border border-stone-300 rounded-xl outline-none focus:border-stone-900 font-mono">
+        <p id="login-error" class="text-xs text-red-600 hidden font-medium">Incorrect PIN. Try again.</p>
+        <button type="submit" class="w-full bg-stone-900 hover:bg-stone-800 text-white py-2.5 rounded-xl text-sm font-bold transition">
+          Unlock Dashboard
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD (HIDDEN UNTIL LOGIN) -->
+  <div id="dashboard-view" class="hidden min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-20">
+      <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="font-serif tracking-widest text-lg font-bold">COMVÉ</span>
+          <span class="text-xs bg-stone-100 text-stone-600 font-semibold px-2 py-0.5 rounded border border-stone-200">Fulfillment Hub</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="/" class="text-xs font-semibold text-stone-600 hover:text-stone-900 flex items-center gap-1 border border-stone-200 px-3 py-1.5 rounded-lg bg-stone-50">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i> View Store
+          </a>
+          <button onclick="handleLogout()" class="text-xs font-semibold text-red-600 hover:text-red-700 flex items-center gap-1">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+      
+      <!-- Metrics Overview -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+          <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block">Total Orders</span>
+          <span id="metric-total-orders" class="text-2xl font-black text-stone-900 mt-1 block">0</span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+          <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block">Prepaid Revenue</span>
+          <span id="metric-prepaid-revenue" class="text-2xl font-black text-emerald-700 mt-1 block">₹0</span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm">
+          <span class="text-xs font-semibold text-stone-500 uppercase tracking-wider block">COD Orders Pending</span>
+          <span id="metric-cod-orders" class="text-2xl font-black text-amber-700 mt-1 block">0</span>
+        </div>
+      </div>
+
+      <!-- Action & Search Bar -->
+      <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+        <div class="relative flex-1 max-w-md">
+          <i data-lucide="search" class="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+          <input type="text" id="search-input" oninput="filterOrders()" placeholder="Search by name, phone, order ID, or city..."
+            class="w-full bg-white border border-stone-200 rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm outline-none focus:border-stone-900">
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="exportToCSV()" class="bg-white hover:bg-stone-50 border border-stone-300 text-stone-800 text-xs font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="download" class="w-3.5 h-3.5"></i> Export CSV
+          </button>
+          <button onclick="clearOrders()" class="bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Clear All
+          </button>
+        </div>
+      </div>
+
+      <!-- Orders List -->
+      <div id="orders-container" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    let allOrders = [];
+
+    // Session Persistence Check
+    if (sessionStorage.getItem("comve_admin_auth") === "true") {
+      showDashboard();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const pin = document.getElementById("admin-pin").value;
+      if (pin === "1234") {
+        sessionStorage.setItem("comve_admin_auth", "true");
+        showDashboard();
+      } else {
+        document.getElementById("login-error").classList.remove("hidden");
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem("comve_admin_auth");
+      document.getElementById("dashboard-view").classList.add("hidden");
+      document.getElementById("login-view").classList.remove("hidden");
+      document.getElementById("admin-pin").value = "";
+    }
+
+    function showDashboard() {
+      document.getElementById("login-view").classList.add("hidden");
+      document.getElementById("dashboard-view").classList.remove("hidden");
+      loadOrders();
+    }
+
+    function loadOrders() {
+      allOrders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
+      renderMetrics();
+      renderOrders(allOrders);
+    }
+
+    function renderMetrics() {
+      document.getElementById("metric-total-orders").innerText = allOrders.length;
+      
+      let prepaidTotal = 0;
+      let codCount = 0;
+
+      allOrders.forEach(o => {
+        const amt = parseInt(o.amount.replace(/[^0-9]/g, '')) || 0;
+        if (o.paymentMode && o.paymentMode.toLowerCase().includes("prepaid")) {
+          prepaidTotal += amt;
+        } else if (o.paymentMode && o.paymentMode.toLowerCase().includes("delivery")) {
+          codCount++;
+        }
+      });
+
+      document.getElementById("metric-prepaid-revenue").innerText = "₹" + prepaidTotal.toLocaleString("en-IN");
+      document.getElementById("metric-cod-orders").innerText = codCount;
+    }
+
+    function renderOrders(ordersToDisplay) {
+      const container = document.getElementById("orders-container");
+
+      if (ordersToDisplay.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl border border-stone-200 p-12 text-center text-stone-400">
+            <i data-lucide="package-open" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+            <p class="text-sm font-semibold">No orders found</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = ordersToDisplay.slice().reverse().map((o, idx) => {
+        const isPrepaid = o.paymentMode && o.paymentMode.toLowerCase().includes("prepaid");
+        const formattedFullAddress = o.customer 
+          ? `${o.customer.address}, ${o.customer.city}, ${o.customer.state} - ${o.customer.pincode}` 
+          : "N/A";
+        const copyText = o.customer 
+          ? `Name: ${o.customer.name} | Phone: ${o.customer.phone} | Address: ${formattedFullAddress}` 
+          : "";
+
+        return `
+          <div class="bg-white rounded-2xl border border-stone-200 p-5 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-stone-100 pb-3">
+              <div>
+                <span class="font-mono font-bold text-sm text-stone-900">${o.orderId || 'COMVE-ORDER'}</span>
+                <span class="text-stone-400 mx-1.5">•</span>
+                <span class="text-xs text-stone-500">${o.date || 'Just now'}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full ${isPrepaid ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-amber-50 text-amber-800 border border-amber-200'}">
+                  ${o.paymentMode || 'Prepaid'}
+                </span>
+                <span class="text-base font-black text-stone-900">${o.amount}</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- Item & Payment ID -->
+              <div class="space-y-1 bg-stone-50 p-3 rounded-xl border border-stone-100">
+                <p class="font-bold text-stone-800 text-sm">${o.item}</p>
+                ${o.paymentId ? `<p class="font-mono text-stone-500">Ref / Razorpay ID: <span class="text-stone-800 font-semibold">${o.paymentId}</span></p>` : ''}
+              </div>
+
+              <!-- Shipping Info -->
+              ${o.customer ? `
+                <div class="space-y-1 bg-stone-50 p-3 rounded-xl border border-stone-100">
+                  <div class="flex justify-between items-center">
+                    <p class="font-bold text-stone-900 text-sm">${o.customer.name}</p>
+                    <button onclick="copyToClipboard('${copyText.replace(/'/g, "\\'")}')" class="text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1 text-[11px]">
+                      <i data-lucide="copy" class="w-3 h-3"></i> Copy Address
+                    </button>
+                  </div>
+                  <p class="text-stone-700">📞 <a href="tel:${o.customer.phone}" class="underline font-semibold">${o.customer.phone}</a> | ✉️ ${o.customer.email || 'N/A'}</p>
+                  <p class="text-stone-600 mt-1">${formattedFullAddress}</p>
+                </div>
+              ` : '<p class="text-stone-400">No customer address provided.</p>'}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      lucide.createIcons();
+    }
+
+    function filterOrders() {
+      const q = document.getElementById("search-input").value.toLowerCase();
+      const filtered = allOrders.filter(o => {
+        const item = (o.item || "").toLowerCase();
+        const orderId = (o.orderId || "").toLowerCase();
+        const name = (o.customer?.name || "").toLowerCase();
+        const phone = (o.customer?.phone || "").toLowerCase();
+        const city = (o.customer?.city || "").toLowerCase();
+        return item.includes(q) || orderId.includes(q) || name.includes(q) || phone.includes(q) || city.includes(q);
+      });
+      renderOrders(filtered);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Customer delivery details copied to clipboard!");
+      });
+    }
+
+    function exportToCSV() {
+      if (allOrders.length === 0) {
+        alert("No orders to export.");
+        return;
+      }
+
+      let csv = "Order ID,Date,Item,Amount,Payment Mode,Reference ID,Customer Name,Phone,Email,Address,City,State,Pincode\n";
+      allOrders.forEach(o => {
+        const c = o.customer || {};
+        csv += `"${o.orderId || ''}","${o.date || ''}","${o.item || ''}","${o.amount || ''}","${o.paymentMode || ''}","${o.paymentId || ''}","${c.name || ''}","${c.phone || ''}","${c.email || ''}","${(c.address || '').replace(/"/g, '""')}","${c.city || ''}","${c.state || ''}","${c.pincode || ''}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("href", url);
+      a.setAttribute("download", `comve_orders_${Date.now()}.csv`);
+      a.click();
+    }
+
+    function clearOrders() {
+      if (confirm("Are you sure you want to delete all order records? This cannot be undone.")) {
+        localStorage.removeItem("comve_orders");
+        loadOrders();
+      }
+    }
+  </script>
+</body>
+</html>
