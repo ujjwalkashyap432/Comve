@@ -53,10 +53,6 @@
           <span id="nav-location">Dehri - 821307</span>
           <i data-lucide="chevron-down" class="w-3 h-3 text-stone-500 cursor-pointer" onclick="changeLocation()"></i>
         </div>
-
-        <a href="/admin.html" class="flex items-center gap-1 text-xs font-semibold bg-stone-100 hover:bg-stone-200 border border-stone-300 text-stone-700 px-2.5 py-1.5 rounded-full transition-colors">
-          <i data-lucide="lock" class="w-3.5 h-3.5"></i> Admin
-        </a>
         
         <button onclick="toggleCart(true)" class="relative cursor-pointer p-2 rounded-full hover:bg-stone-100 transition-colors focus:outline-none">
           <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-black"></i>
@@ -261,7 +257,7 @@
           <i data-lucide="shopping-bag" class="w-4 h-4"></i>
           <span>View Cart</span>
         </button>
-        <button onclick="openShippingModal()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
+        <button onclick="openShippingModal()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99] whitespace-nowrap">
           <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
           <span>BUY NOW</span>
         </button>
@@ -289,18 +285,18 @@
 
   <!-- FIXED STICKY BOTTOM CHECKOUT BAR -->
   <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
-    <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
-      <div class="flex flex-col">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+      <div class="flex flex-col min-w-0 pr-1">
         <div class="flex items-baseline gap-2">
           <span id="sticky-price" class="text-lg font-black text-stone-900">₹299</span>
           <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹399</span>
           <span id="sticky-discount" class="text-xs font-bold text-emerald-700">25% OFF</span>
         </div>
-        <span id="sticky-subtext" class="text-[10px] text-stone-500">Inclusive of all taxes • ₹299 (UPI) / ₹399 (COD)</span>
+        <span id="sticky-subtext" class="text-[10px] text-stone-500 truncate">Inclusive of all taxes • ₹299 (UPI) / ₹399 (COD)</span>
       </div>
 
-      <button onclick="openShippingModal()" class="bg-brand-black hover:bg-stone-800 text-white px-8 py-3 rounded-xl font-bold text-sm flex items-center gap-2 shadow-md transition-transform active:scale-[0.98]">
-        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+      <button onclick="openShippingModal()" class="flex-shrink-0 bg-brand-black hover:bg-stone-800 text-white px-5 sm:px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-transform active:scale-[0.98] whitespace-nowrap">
+        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400 flex-shrink-0"></i>
         <span>BUY NOW</span>
       </button>
     </div>
@@ -517,12 +513,7 @@
   <!-- FOOTER -->
   <footer class="bg-white border-t border-stone-200 py-6 mt-12 text-center text-xs text-stone-500">
     <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>© 2026 COMVÉ Hair Essentials. All rights reserved.</p>
-      <div class="flex items-center gap-4">
-        <a href="/admin.html" class="flex items-center gap-1 text-stone-400 hover:text-stone-700">
-          <i data-lucide="lock" class="w-3 h-3"></i> Admin
-        </a>
-      </div>
+      <p>©️ 2026 COMVÉ Hair Essentials. All rights reserved.</p>
     </div>
   </footer>
 
