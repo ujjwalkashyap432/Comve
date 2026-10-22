@@ -510,10 +510,42 @@
     </div>
   </div>
 
+  <!-- POLICY POPUP MODAL (FOR RAZORPAY COMPLIANCE) -->
+  <div id="policy-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-stone-200 max-h-[85vh] flex flex-col justify-between">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <h3 id="policy-modal-title" class="font-bold text-lg text-stone-900">Policy Details</h3>
+        <button onclick="closePolicyModal()" class="text-stone-400 hover:text-stone-700 p-1 rounded-full">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="policy-modal-content" class="overflow-y-auto pr-2 text-xs text-stone-700 space-y-3 leading-relaxed flex-1">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div class="pt-4 border-t mt-4 text-right">
+        <button onclick="closePolicyModal()" class="bg-stone-900 hover:bg-black text-white px-5 py-2 rounded-xl text-xs font-semibold">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="bg-white border-t border-stone-200 py-6 mt-12 text-center text-xs text-stone-500">
     <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>©️ 2026 COMVÉ Hair Essentials. All rights reserved.</p>
+      <p>© 2026 COMVÉ Hair Essentials. All rights reserved.</p>
+      
+      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-stone-600 font-medium">
+        <button onclick="openPolicyModal('contact')" class="hover:text-black hover:underline">Contact Us</button>
+        <span class="text-stone-300">•</span>
+        <button onclick="openPolicyModal('terms')" class="hover:text-black hover:underline">Terms & Conditions</button>
+        <span class="text-stone-300">•</span>
+        <button onclick="openPolicyModal('privacy')" class="hover:text-black hover:underline">Privacy Policy</button>
+        <span class="text-stone-300">•</span>
+        <button onclick="openPolicyModal('shipping')" class="hover:text-black hover:underline">Shipping & Replacement</button>
+      </div>
     </div>
   </footer>
 
@@ -578,6 +610,90 @@
         customer_pincode: orderData.customer.pincode
       };
       emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams).catch(console.error);
+    }
+
+    // ==========================================
+    // POLICY MODALS CONTENT (RAZORPAY COMPLIANCE)
+    // ==========================================
+    const policyData = {
+      contact: {
+        title: "Contact Us",
+        content: `
+          <div class="space-y-3">
+            <p class="font-bold text-stone-900 text-sm">COMVÉ Hair Essentials</p>
+            <p>We are dedicated to providing you with the best hair care tools and support. If you have any inquiries regarding your order, shipping, or product usage, feel free to reach out to us.</p>
+            <div class="bg-stone-50 border border-stone-200 rounded-xl p-3.5 space-y-2">
+              <p><strong>Email Support:</strong> <a href="mailto:support@comve.in" class="text-blue-600 underline">support@comve.in</a></p>
+              <p><strong>Operational Office:</strong> Office 1036, 14th Avenue, Gaur City, Greater Noida, Uttar Pradesh, India</p>
+              <p><strong>Support Hours:</strong> Monday – Saturday, 10:00 AM – 6:00 PM IST</p>
+              <p><strong>Response Time:</strong> All customer queries are addressed within 24–48 business hours.</p>
+            </div>
+          </div>
+        `
+      },
+      terms: {
+        title: "Terms & Conditions",
+        content: `
+          <div class="space-y-3">
+            <p><strong>Last Updated:</strong> October 2026</p>
+            <p>Welcome to COMVÉ. By browsing, accessing, or placing an order on this website, you agree to comply with and be bound by the following terms:</p>
+            <p><strong>1. General Terms:</strong> This website is owned and operated by COMVÉ Hair Essentials. By placing an order, you confirm that you are at least 18 years of age or accessing under the supervision of a parent/guardian.</p>
+            <p><strong>2. Product Accuracy & Pricing:</strong> All prices are displayed in Indian Rupees (INR) and are inclusive of all applicable taxes. We reserve the right to revise promotional pricing and discount tiers without prior notice.</p>
+            <p><strong>3. Orders & Payments:</strong> Orders paid via Instant Prepaid UPI/Cards are processed through Razorpay's 256-bit secure gateway. Cash on Delivery (COD) orders require genuine recipient details; fraudulent bookings are subject to verification.</p>
+            <p><strong>4. Intellectual Property:</strong> All brand logos, images, comb designs, text copy, and website media are the proprietary assets of COMVÉ and cannot be replicated without written consent.</p>
+          </div>
+        `
+      },
+      privacy: {
+        title: "Privacy Policy",
+        content: `
+          <div class="space-y-3">
+            <p><strong>Last Updated:</strong> October 2026</p>
+            <p>At COMVÉ, accessible from our online store, customer privacy is of paramount importance. This Privacy Policy outlines how your information is collected and protected:</p>
+            <p><strong>1. Information We Collect:</strong> When you place an order, we collect your full name, shipping address, contact phone number, and email address strictly to facilitate delivery and email your purchase receipt.</p>
+            <p><strong>2. Payment Security:</strong> We do not collect or store your UPI PIN, passwords, CVV, or card details. All transactions are securely handled directly by Razorpay's PCI-DSS compliant payment gateway.</p>
+            <p><strong>3. Information Sharing:</strong> We do not sell or rent customer data. Your name, address, and mobile number are shared only with our trusted shipping partner (Meesho Logistics & express couriers) for physical package delivery.</p>
+          </div>
+        `
+      },
+      shipping: {
+        title: "Shipping, Cancellation & Replacement Policy",
+        content: `
+          <div class="space-y-3">
+            <p><strong>Last Updated:</strong> October 2026</p>
+            <p class="font-bold text-stone-900">1. Shipping Policy</p>
+            <p>• <strong>Free Shipping:</strong> 100% Free Express Shipping is available on all orders across India.<br>
+            • <strong>Logistics Partner:</strong> Deliveries are securely fulfilled via Meesho Logistics network and standard express couriers.<br>
+            • <strong>Dispatch & Delivery:</strong> Orders are dispatched within 24 hours. Estimated delivery timeline is 3 to 7 business days.</p>
+            
+            <p class="font-bold text-stone-900 pt-2">2. Cancellation Policy</p>
+            <p>Orders can be cancelled before they are dispatched from our fulfillment hub. Once picked up by our courier partner, cancellations cannot be processed.</p>
+
+            <p class="font-bold text-stone-900 pt-2">3. Non-Returnable Personal Care Terms</p>
+            <p>Due to strict personal-care sanitation guidelines, COMVÉ applicator combs are <strong>Non-Returnable</strong> and <strong>Non-Refundable</strong> once delivered.</p>
+
+            <p class="font-bold text-stone-900 pt-2">4. Damaged on Arrival Replacement Guarantee</p>
+            <p>If your package arrives physically broken or damaged during transit, we provide a <strong>100% Free Instant Replacement</strong> (a brand-new comb is dispatched at zero cost).<br>
+            <strong>Requirement:</strong> You must email an uninterrupted unboxing video and photos of the damaged item along with your Order ID to <strong>support@comve.in</strong> within 48 hours of delivery.</p>
+          </div>
+        `
+      }
+    };
+
+    function openPolicyModal(type) {
+      const modal = document.getElementById("policy-modal");
+      const title = document.getElementById("policy-modal-title");
+      const content = document.getElementById("policy-modal-content");
+      
+      if (policyData[type]) {
+        title.innerText = policyData[type].title;
+        content.innerHTML = policyData[type].content;
+        modal.classList.remove("hidden");
+      }
+    }
+
+    function closePolicyModal() {
+      document.getElementById("policy-modal").classList.add("hidden");
     }
 
     // Gallery
