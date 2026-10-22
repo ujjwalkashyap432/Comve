@@ -562,7 +562,7 @@
     // ==========================================
     // CONFIGURATION: RAZORPAY & GOOGLE SHEETS
     // ==========================================
-    const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM";
+    const RAZORPAY_KEY_ID = "rzp_test_Tr6eYjC4PcMajn";
     
     // YOUR GOOGLE SHEETS WEB APP URL
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxyQU2cra1HUDJKVgDA00OGGqB3VyzecPs7c5vVxEf8NRLDKjDzsFwCLFN09I_JvntmEw/exec";
@@ -911,12 +911,12 @@
         date: new Date().toLocaleString()
       };
 
-      // 1. Save to LocalStorage (On this device)
+      // 1. Save to LocalStorage
       let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
       orders.push(orderData);
       localStorage.setItem("comve_orders", JSON.stringify(orders));
 
-      // 2. Transmit to Google Sheet (Sync across all devices)
+      // 2. Transmit to Google Sheet
       sendOrderToGoogleSheet(orderData);
 
       // 3. Email receipt backup
@@ -933,25 +933,47 @@
       refreshIcons();
     }
 
-    // Trigger Razorpay UPI
-    function triggerRazorpay() {
+    // Trigger Razorpay UPI via Backend Order
+    async function triggerRazorpay() {
       const v = variants[selectedPack];
       const totalAmount = v.upiPrice * selectedQuantity;
       const amountInPaise = totalAmount * 100;
-      const orderId = generateOrderId();
+      const receiptId = generateOrderId();
+
+      let orderDataFromServer;
+      try {
+        const res = await fetch('/api/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: amountInPaise,
+            receipt: receiptId
+          })
+        });
+
+        if (!res.ok) {
+          throw new Error('Could not create Razorpay order');
+        }
+        orderDataFromServer = await res.json();
+      } catch (err) {
+        console.error(err);
+        alert('Payment system is initializing. Please try again or choose Cash on Delivery.');
+        return;
+      }
 
       const options = {
         "key": RAZORPAY_KEY_ID,
-        "amount": amountInPaise,
+        "amount": orderDataFromServer.amount,
         "currency": "INR",
         "name": "COMVÉ",
         "description": `${v.name} (Qty: ${selectedQuantity})`,
         "image": "New folder/1.jpeg",
+        "order_id": orderDataFromServer.id,
         "handler": function (response) {
           const paymentId = response.razorpay_payment_id;
 
           const orderData = {
-            orderId: orderId,
+            orderId: receiptId,
             item: `${v.name} (Qty: ${selectedQuantity})`,
             amount: `₹${totalAmount}`,
             paymentMode: "Prepaid UPI (Razorpay)",
@@ -960,25 +982,25 @@
             date: new Date().toLocaleString()
           };
 
-          // 1. Save to LocalStorage (On this device)
+          // 1. Save to LocalStorage
           let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
           orders.push(orderData);
           localStorage.setItem("comve_orders", JSON.stringify(orders));
 
-          // 2. Transmit to Google Sheet (Sync across all devices)
+          // 2. Transmit to Google Sheet
           sendOrderToGoogleSheet(orderData);
 
           // 3. Email receipt backup
           sendOrderEmail(orderData);
 
           // Render Modal
-          document.getElementById("success-order-id").innerText = orderId;
+          document.getElementById("success-order-id").innerText = receiptId;
           document.getElementById("success-pay-mode").innerText = "Prepaid UPI (Razorpay)";
           document.getElementById("row-payment-id").classList.remove("hidden");
           document.getElementById("success-payment-id").innerText = paymentId;
           document.getElementById("success-product-title").innerText = `${v.name} × ${selectedQuantity}`;
           document.getElementById("success-amount").innerText = `₹${totalAmount}`;
-          document.getElementById("success-subtext").innerText = `Your prepaid order ${orderId} is confirmed. A payment receipt has been emailed to ${customerShippingData.email}.`;
+          document.getElementById("success-subtext").innerText = `Your prepaid order ${receiptId} is confirmed. A payment receipt has been emailed to ${customerShippingData.email}.`;
           document.getElementById("success-modal").classList.remove("hidden");
           refreshIcons();
         },
