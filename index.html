@@ -529,8 +529,15 @@
   <script>
     lucide.createIcons();
 
-    // Configuration
+    // ==========================================
+    // CONFIGURATION: RAZORPAY & GOOGLE SHEETS
+    // ==========================================
     const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM";
+    
+    // YOUR GOOGLE SHEETS WEB APP URL
+    const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxyQU2cra1HUDJKVgDA00OGGqB3VyzecPs7c5vVxEf8NRLDKjDzsFwCLFN09I_JvntmEw/exec";
+
+    // EmailJS Credentials (optional backup)
     const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";
     const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
     const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
@@ -542,6 +549,25 @@
     function generateOrderId() {
       const randomNum = Math.floor(100000 + Math.random() * 900000);
       return `COMVE-${randomNum}`;
+    }
+
+    // Function to transmit order directly into your Google Sheet
+    function sendOrderToGoogleSheet(orderData) {
+      if (!GOOGLE_SHEET_URL) return;
+      try {
+        fetch(GOOGLE_SHEET_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData)
+        }).then(() => {
+          console.log("Order logged in Google Sheet successfully.");
+        }).catch(err => {
+          console.error("Google Sheet error:", err);
+        });
+      } catch (e) {
+        console.error("Transmission error:", e);
+      }
     }
 
     function sendOrderEmail(orderData) {
@@ -748,6 +774,7 @@
       }
     }
 
+    // Trigger COD Order
     function triggerCodOrder() {
       const v = variants[selectedPack];
       const totalAmount = v.codPrice * selectedQuantity;
@@ -763,12 +790,18 @@
         date: new Date().toLocaleString()
       };
 
+      // 1. Save to LocalStorage (On this device)
       let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
       orders.push(orderData);
       localStorage.setItem("comve_orders", JSON.stringify(orders));
 
+      // 2. Transmit to Google Sheet (Sync across all devices)
+      sendOrderToGoogleSheet(orderData);
+
+      // 3. Email receipt backup
       sendOrderEmail(orderData);
 
+      // Render Modal
       document.getElementById("success-order-id").innerText = orderId;
       document.getElementById("success-pay-mode").innerText = "Cash on Delivery (COD)";
       document.getElementById("row-payment-id").classList.add("hidden");
@@ -778,6 +811,7 @@
       document.getElementById("success-modal").classList.remove("hidden");
     }
 
+    // Trigger Razorpay UPI
     function triggerRazorpay() {
       const v = variants[selectedPack];
       const totalAmount = v.upiPrice * selectedQuantity;
@@ -804,12 +838,18 @@
             date: new Date().toLocaleString()
           };
 
+          // 1. Save to LocalStorage (On this device)
           let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
           orders.push(orderData);
           localStorage.setItem("comve_orders", JSON.stringify(orders));
 
+          // 2. Transmit to Google Sheet (Sync across all devices)
+          sendOrderToGoogleSheet(orderData);
+
+          // 3. Email receipt backup
           sendOrderEmail(orderData);
 
+          // Render Modal
           document.getElementById("success-order-id").innerText = orderId;
           document.getElementById("success-pay-mode").innerText = "Prepaid UPI (Razorpay)";
           document.getElementById("row-payment-id").classList.remove("hidden");
