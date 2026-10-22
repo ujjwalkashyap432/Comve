@@ -5,8 +5,8 @@ export default async function handler(req, res) {
 
   const { amount, receipt } = req.body;
 
-  const keyId = process.env.RAZORPAY_KEY_ID || "rzp_test_Tr6eYjC4PcMajn";
-  const keySecret = process.env.RAZORPAY_KEY_SECRET || "egJDfvWw2rBNeIsr63bmXINx";
+  const keyId = process.env.RAZORPAY_KEY_ID || "rzp_live_Tr6vwlgAVCDG1Y";
+  const keySecret = process.env.RAZORPAY_KEY_SECRET || "9vJRSsGcLyLxSu0TJlu3iIsU";
   const auth = Buffer.from(`${keyId}:${keySecret}`).toString('base64');
 
   try {
