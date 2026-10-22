@@ -37,7 +37,7 @@
   <!-- TOP BANNER -->
   <div class="bg-brand-black text-white text-xs py-2 px-4 text-center font-medium tracking-wide">
     <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
-    OFFER: Flat ₹100 OFF on Instant UPI Payment (₹299) | Cash on Delivery available at ₹399
+    OFFER: Flat ₹100 OFF on Instant Prepaid UPI | Cash on Delivery available at standard prices
   </div>
 
   <!-- NAVIGATION -->
@@ -107,7 +107,7 @@
           Precision Hair Oil & Serum Applicator Comb
         </h1>
 
-        <!-- RATING & REVIEWS BADGE (GREEN) -->
+        <!-- RATING & REVIEWS BADGE -->
         <div class="flex items-center gap-2 mt-2">
           <div class="inline-flex items-center gap-1 bg-emerald-600 text-white px-2 py-0.5 rounded text-xs font-bold shadow-sm">
             <span>4.4</span>
@@ -137,11 +137,11 @@
 
         <p class="text-[11px] text-stone-500 font-medium">Inclusive of all taxes</p>
 
-        <!-- UPI Auto Discount Banner -->
+        <!-- UPI Discount Banner -->
         <div class="bg-emerald-50/70 border border-emerald-200 rounded-lg p-2.5 flex items-center justify-between text-xs mt-1">
           <div class="flex items-center gap-2">
             <span class="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">UPI SPECIAL</span>
-            <span class="text-emerald-950 font-medium">Get it at ₹299 with Instant UPI (COD price: ₹399)</span>
+            <span id="banner-discount-note" class="text-emerald-950 font-medium">Get it at ₹299 with Instant UPI (COD price: ₹399)</span>
           </div>
           <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-700"></i>
         </div>
@@ -176,12 +176,12 @@
                 <span class="text-[11px] text-emerald-700 font-semibold">Double Value Kit</span>
               </div>
               <div class="text-right">
-                <span class="text-[11px] text-stone-400 line-through block">₹699</span>
-                <span class="font-black text-sm text-brand-black">₹599</span>
-                <span class="text-[10px] font-bold text-emerald-700 block">14% OFF</span>
+                <span class="text-[11px] text-stone-400 line-through block">₹799</span>
+                <span class="font-black text-sm text-brand-black">₹555</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">31% OFF</span>
               </div>
             </div>
-            <p class="text-[10px] text-stone-500 mt-2">₹599 UPI / ₹699 COD</p>
+            <p class="text-[10px] text-stone-500 mt-2">₹555 UPI / ₹655 COD</p>
           </div>
         </div>
       </div>
@@ -237,4 +237,636 @@
 
       <!-- ACTION BUTTONS: VIEW CART & BUY NOW -->
       <div class="flex flex-col sm:flex-row gap-3">
-        <button onclick="toggleCart(true)" class="sm:w-1/3 bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 py-3.5 rounded-xl font-bold flex
+        <button onclick="toggleCart(true)" class="sm:w-1/3 bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>View Cart</span>
+        </button>
+        <button onclick="openShippingModal()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
+          <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+          <span>BUY NOW</span>
+        </button>
+      </div>
+
+      <div class="flex items-center justify-center gap-4 text-[11px] text-stone-500">
+        <span class="flex items-center gap-1"><i data-lucide="truck" class="w-3.5 h-3.5"></i> Free Express Shipping</span>
+        <span>•</span>
+        <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5"></i> 256-Bit Razorpay Secured</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- FIXED STICKY BOTTOM CHECKOUT BAR -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+    <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex flex-col">
+        <div class="flex items-baseline gap-2">
+          <span id="sticky-price" class="text-lg font-black text-stone-900">₹299</span>
+          <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹399</span>
+          <span id="sticky-discount" class="text-xs font-bold text-emerald-700">25% OFF</span>
+        </div>
+        <span id="sticky-subtext" class="text-[10px] text-stone-500">Inclusive of all taxes • ₹299 (UPI) / ₹399 (COD)</span>
+      </div>
+
+      <button onclick="openShippingModal()" class="bg-brand-black hover:bg-stone-800 text-white px-8 py-3 rounded-xl font-bold text-sm flex items-center gap-2 shadow-md transition-transform active:scale-[0.98]">
+        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        <span>BUY NOW</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CART SLIDE-OUT DRAWER -->
+  <div id="cart-drawer-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden transition-opacity"></div>
+  <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+    <div class="p-4 border-b border-stone-200 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-stone-800"></i>
+        <h3 class="font-bold text-base text-stone-900">Your Cart</h3>
+        <span id="drawer-pill-count" class="bg-stone-100 text-stone-700 text-xs px-2 py-0.5 rounded-full font-semibold">1 item</span>
+      </div>
+      <button onclick="toggleCart(false)" class="p-1.5 rounded-full hover:bg-stone-100 text-stone-500 hover:text-stone-800">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="p-4 flex-1 overflow-y-auto space-y-4">
+      <div class="flex gap-3 bg-stone-50 border border-stone-200 rounded-xl p-3">
+        <img src="New folder/1.jpeg" alt="COMVÉ Comb" class="w-20 h-20 object-contain rounded-lg bg-white border border-stone-200 p-1">
+        <div class="flex-1 flex flex-col justify-between">
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-stone-900 leading-tight">COMVÉ Hair Oil & Serum Applicator</h4>
+            <span id="cart-item-variant-label" class="text-[11px] text-stone-500">Pack of 1 (Single User Kit)</span>
+          </div>
+
+          <div class="flex items-center justify-between mt-2">
+            <div class="flex items-center border border-stone-300 rounded bg-white">
+              <button onclick="updateQty(-1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">-</button>
+              <span id="drawer-item-qty" class="w-7 text-center font-bold text-xs text-stone-800">1</span>
+              <button onclick="updateQty(1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">+</button>
+            </div>
+            <div class="text-right">
+              <span id="drawer-item-mrp" class="text-[10px] text-stone-400 line-through block">₹399</span>
+              <span id="drawer-item-price" class="font-extrabold text-sm text-stone-900">₹299</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-emerald-950 flex items-start gap-2">
+        <i data-lucide="tag" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+        <div>
+          <p class="font-semibold">Flat ₹100 Off on Prepaid UPI</p>
+          <p class="text-[11px] text-emerald-800 mt-0.5">Pay online via UPI to claim ₹100 discount. COD available at standard sale price.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-stone-200 bg-stone-50 space-y-3">
+      <div class="space-y-1.5 text-xs text-stone-600">
+        <div class="flex justify-between">
+          <span>Standard Price (COD)</span>
+          <span id="cart-summary-mrp">₹399</span>
+        </div>
+        <div class="flex justify-between text-emerald-700 font-medium">
+          <span>UPI Prepaid Discount</span>
+          <span id="cart-summary-savings">-₹100</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Delivery</span>
+          <span class="text-emerald-700 font-semibold uppercase text-[10px]">FREE EXPRESS</span>
+        </div>
+        <div class="border-t border-stone-200 pt-2 flex justify-between text-sm font-black text-stone-900">
+          <div>
+            <span>Prepaid Total (UPI)</span>
+            <span class="block text-[10px] font-normal text-stone-500">Includes all taxes</span>
+          </div>
+          <span id="cart-summary-total">₹299</span>
+        </div>
+      </div>
+
+      <button onclick="toggleCart(false); openShippingModal();" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-md">
+        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        <span>BUY NOW</span>
+      </button>
+      <p class="text-[10px] text-center text-stone-400">100% Replacement Guarantee • Non-Returnable Personal Care Item</p>
+    </div>
+  </div>
+
+  <!-- SHIPPING & PAYMENT DETAILS MODAL -->
+  <div id="shipping-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div>
+          <h3 class="font-bold text-lg text-stone-900 flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-5 h-5 text-emerald-600"></i> Delivery Address & Payment
+          </h3>
+          <p class="text-xs text-stone-500 mt-0.5">Select payment mode and provide shipping details</p>
+        </div>
+        <button onclick="closeShippingModal()" class="text-stone-400 hover:text-stone-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleShippingSubmit(event)" class="space-y-3.5">
+        
+        <!-- PAYMENT METHOD SELECTION -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider">Select Payment Mode *</label>
+          <div class="grid grid-cols-2 gap-2.5">
+            <label class="cursor-pointer border-2 border-brand-black bg-stone-50 rounded-xl p-3 flex flex-col justify-between" id="pay-opt-upi" onclick="selectPayMode('upi')">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-stone-900">Instant UPI</span>
+                <span class="bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">SAVE ₹100</span>
+              </div>
+              <span id="form-upi-price" class="font-extrabold text-sm text-stone-900 mt-1">₹299</span>
+              <span class="text-[10px] text-emerald-700 font-medium">Flat ₹100 Off applied</span>
+            </label>
+
+            <label class="cursor-pointer border border-stone-200 bg-white rounded-xl p-3 flex flex-col justify-between" id="pay-opt-cod" onclick="selectPayMode('cod')">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-stone-900">Cash on Delivery</span>
+                <span class="bg-stone-200 text-stone-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">COD</span>
+              </div>
+              <span id="form-cod-price" class="font-extrabold text-sm text-stone-900 mt-1">₹399</span>
+              <span class="text-[10px] text-stone-500">Pay cash upon delivery</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Full Name *</label>
+          <input type="text" id="cust-name" required placeholder="e.g. Ramesh Kumar" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Email Address (For Order Confirmation) *</label>
+          <input type="email" id="cust-email" required placeholder="e.g. ramesh@gmail.com" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Mobile Number (For Courier Delivery Call) *</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold">+91</span>
+            <input type="tel" id="cust-phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full border border-stone-300 rounded-r-lg px-3 py-2 text-sm focus:border-black outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Complete Street Address (Flat/House No, Landmark) *</label>
+          <textarea id="cust-address" required rows="2" placeholder="e.g. Flat 302, Palm Heights, Near City Mall" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1">City / Town *</label>
+            <input type="text" id="cust-city" required placeholder="e.g. Dehri" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1">Pincode *</label>
+            <input type="text" id="cust-pincode" required pattern="[0-9]{6}" placeholder="e.g. 821307" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">State *</label>
+          <input type="text" id="cust-state" required placeholder="e.g. Bihar" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" id="submit-order-btn" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
+            <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
+            <span id="shipping-btn-text">PAY & CONFIRM ORDER VIA UPI — ₹299</span>
+          </button>
+          <p id="gateway-hint-text" class="text-[10px] text-center text-stone-400 mt-2">Official 256-Bit Razorpay Gateway (UPI, Cards, NetBanking)</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ORDER SUCCESS CONFIRMATION MODAL -->
+  <div id="success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-stone-200 text-center">
+      <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="check-circle" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-xl font-extrabold text-stone-900">Order Placed Successfully!</h3>
+      <p id="success-subtext" class="text-xs text-stone-600 mt-1">Thank you for your purchase. A payment & order confirmation receipt has been sent to your email.</p>
+
+      <div class="bg-stone-50 border border-stone-200 rounded-xl p-3.5 my-4 text-left text-xs space-y-1.5 text-stone-700">
+        <div class="flex justify-between">
+          <span class="text-stone-500">Payment Mode:</span>
+          <span id="success-pay-mode" class="font-bold text-stone-900">Prepaid UPI</span>
+        </div>
+        <div class="flex justify-between" id="row-payment-id">
+          <span class="text-stone-500">Reference / Order ID:</span>
+          <span id="success-payment-id" class="font-mono font-bold text-stone-900">pay_xxx</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Item:</span>
+          <span id="success-product-title" class="font-bold text-stone-900">Pack of 1</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Total Amount:</span>
+          <span id="success-amount" class="font-black text-stone-900">₹299</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Delivery Status:</span>
+          <span class="text-emerald-700 font-semibold">Dispatching in 24 Hours</span>
+        </div>
+      </div>
+
+      <button onclick="closeSuccessModal()" class="w-full bg-brand-black text-white py-3 rounded-xl font-bold text-sm">
+        Done
+      </button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-stone-200 py-6 mt-12 text-center text-xs text-stone-500">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 COMVÉ Hair Essentials. All rights reserved.</p>
+      <div class="flex items-center gap-4">
+        <a href="javascript:void(0)" onclick="openAdmin()" class="flex items-center gap-1 text-stone-400 hover:text-stone-700">
+          <i data-lucide="lock" class="w-3 h-3"></i> Admin
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ADMIN MODAL -->
+  <div id="admin-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-stone-200">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <h3 class="font-bold text-lg text-stone-900 flex items-center gap-2">
+          <i data-lucide="shield" class="w-5 h-5 text-stone-800"></i> Admin Panel
+        </h3>
+        <button onclick="closeAdmin()" class="text-stone-400 hover:text-stone-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="admin-login-view" class="space-y-4">
+        <p class="text-xs text-stone-600">Enter Admin PIN to view recent orders:</p>
+        <div class="flex gap-2">
+          <input type="password" id="admin-pin-input" placeholder="Enter PIN" class="border rounded-lg px-3 py-2 text-sm w-full outline-none focus:border-black">
+          <button onclick="checkAdminPin()" class="bg-brand-black text-white px-4 py-2 rounded-lg text-sm font-semibold">Login</button>
+        </div>
+        <p id="admin-error" class="text-xs text-red-600 hidden">Incorrect PIN.</p>
+      </div>
+
+      <div id="admin-orders-view" class="hidden space-y-4">
+        <div class="flex items-center justify-between">
+          <h4 class="font-semibold text-sm">Customer Orders Log</h4>
+          <button onclick="clearOrders()" class="text-xs text-red-600 underline">Clear Log</button>
+        </div>
+        <div class="max-h-72 overflow-y-auto space-y-3" id="orders-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Razorpay Test Key ID
+    const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM";
+
+    // Gallery Logic
+    const productImages = [
+      "New folder/1.jpeg",
+      "New folder/2.jpeg",
+      "New folder/3.jpeg",
+      "New folder/4.jpeg"
+    ];
+    let currentImageIndex = 0;
+
+    function updateGallery() {
+      const imgElem = document.getElementById("main-product-image");
+      imgElem.src = productImages[currentImageIndex];
+      
+      const buttons = document.querySelectorAll("#thumbnail-container button");
+      buttons.forEach((btn, idx) => {
+        if(idx === currentImageIndex) {
+          btn.className = "w-16 h-16 rounded-xl border-2 border-brand-black overflow-hidden flex-shrink-0 bg-white p-1";
+        } else {
+          btn.className = "w-16 h-16 rounded-xl border border-stone-200 overflow-hidden flex-shrink-0 bg-white p-1";
+        }
+      });
+    }
+
+    function setImage(index) {
+      currentImageIndex = index;
+      updateGallery();
+    }
+
+    function nextImage() {
+      currentImageIndex = (currentImageIndex + 1) % productImages.length;
+      updateGallery();
+    }
+
+    function prevImage() {
+      currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+      updateGallery();
+    }
+
+    // Pricing Model:
+    // Pack 1: MRP 399 | COD 399 | UPI 299 (25% off)
+    // Pack 2: MRP 799 | COD 655 | UPI 555 (31% off)
+    let selectedPack = 1;
+    let selectedQuantity = 1;
+    let chosenPaymentMode = "upi";
+
+    const variants = {
+      1: { name: "Pack of 1 (Single User Kit)", upiPrice: 299, codPrice: 399, mrp: 399, discountPct: "25% OFF" },
+      2: { name: "Pack of 2 (Double Value Kit)", upiPrice: 555, codPrice: 655, mrp: 799, discountPct: "31% OFF" }
+    };
+
+    function recalculateAll() {
+      const v = variants[selectedPack];
+      const totalUpiAmount = v.upiPrice * selectedQuantity;
+      const totalCodAmount = v.codPrice * selectedQuantity;
+      const totalMrp = v.mrp * selectedQuantity;
+      const totalSavings = totalMrp - totalUpiAmount;
+
+      // Hero price card
+      document.getElementById("hero-price").innerText = "₹" + totalUpiAmount;
+      document.getElementById("hero-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("hero-discount-pill").innerText = v.discountPct;
+      document.getElementById("page-quantity").innerText = selectedQuantity;
+      document.getElementById("banner-discount-note").innerText = `Get it at ₹${totalUpiAmount} with Instant UPI (COD price: ₹${totalCodAmount})`;
+
+      // Sticky checkout bar
+      document.getElementById("sticky-price").innerText = "₹" + totalUpiAmount;
+      document.getElementById("sticky-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("sticky-discount").innerText = v.discountPct;
+      document.getElementById("sticky-subtext").innerText = `Inclusive of all taxes • ₹${totalUpiAmount} (UPI) / ₹${totalCodAmount} (COD)`;
+
+      // Badges
+      document.getElementById("header-cart-count").innerText = selectedQuantity;
+      document.getElementById("drawer-pill-count").innerText = `${selectedQuantity} ${selectedQuantity > 1 ? 'items' : 'item'}`;
+
+      // Cart Drawer
+      document.getElementById("cart-item-variant-label").innerText = v.name;
+      document.getElementById("drawer-item-qty").innerText = selectedQuantity;
+      document.getElementById("drawer-item-price").innerText = "₹" + totalUpiAmount;
+      document.getElementById("drawer-item-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("cart-summary-mrp").innerText = "₹" + totalCodAmount;
+      document.getElementById("cart-summary-savings").innerText = "-₹" + (totalCodAmount - totalUpiAmount);
+      document.getElementById("cart-summary-total").innerText = "₹" + totalUpiAmount;
+
+      // Delivery modal
+      document.getElementById("form-upi-price").innerText = "₹" + totalUpiAmount;
+      document.getElementById("form-cod-price").innerText = "₹" + totalCodAmount;
+      updateFormButton();
+    }
+
+    function selectPayMode(mode) {
+      chosenPaymentMode = mode;
+      const optUpi = document.getElementById("pay-opt-upi");
+      const optCod = document.getElementById("pay-opt-cod");
+
+      if (mode === "upi") {
+        optUpi.className = "cursor-pointer border-2 border-brand-black bg-stone-50 rounded-xl p-3 flex flex-col justify-between";
+        optCod.className = "cursor-pointer border border-stone-200 bg-white rounded-xl p-3 flex flex-col justify-between";
+      } else {
+        optCod.className = "cursor-pointer border-2 border-brand-black bg-stone-50 rounded-xl p-3 flex flex-col justify-between";
+        optUpi.className = "cursor-pointer border border-stone-200 bg-white rounded-xl p-3 flex flex-col justify-between";
+      }
+
+      updateFormButton();
+    }
+
+    function updateFormButton() {
+      const v = variants[selectedPack];
+      const btnText = document.getElementById("shipping-btn-text");
+      const hintText = document.getElementById("gateway-hint-text");
+
+      if (chosenPaymentMode === "upi") {
+        const total = v.upiPrice * selectedQuantity;
+        btnText.innerText = `PAY & CONFIRM ORDER VIA UPI — ₹${total}`;
+        hintText.innerText = "Official 256-Bit Razorpay Gateway (UPI, Cards, NetBanking)";
+      } else {
+        const total = v.codPrice * selectedQuantity;
+        btnText.innerText = `PLACE COD ORDER — ₹${total}`;
+        hintText.innerText = "Pay cash when order is delivered to your doorstep";
+      }
+    }
+
+    function selectVariant(pack) {
+      selectedPack = pack;
+      const card1 = document.getElementById("variant-1");
+      const card2 = document.getElementById("variant-2");
+
+      if (pack === 1) {
+        card1.className = "cursor-pointer border-2 border-brand-black bg-stone-50 rounded-xl p-3 transition-all relative";
+        card2.className = "cursor-pointer border border-stone-200 bg-white rounded-xl p-3 transition-all relative";
+      } else {
+        card2.className = "cursor-pointer border-2 border-brand-black bg-stone-50 rounded-xl p-3 transition-all relative";
+        card1.className = "cursor-pointer border border-stone-200 bg-white rounded-xl p-3 transition-all relative";
+      }
+
+      recalculateAll();
+    }
+
+    function updateQty(delta) {
+      const next = selectedQuantity + delta;
+      if (next >= 1 && next <= 10) {
+        selectedQuantity = next;
+        recalculateAll();
+      }
+    }
+
+    function toggleCart(open) {
+      const drawer = document.getElementById("cart-drawer");
+      const overlay = document.getElementById("cart-drawer-overlay");
+
+      if (open) {
+        overlay.classList.remove("hidden");
+        setTimeout(() => {
+          drawer.classList.remove("translate-x-full");
+        }, 10);
+      } else {
+        drawer.classList.add("translate-x-full");
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+        }, 300);
+      }
+    }
+
+    function openShippingModal() {
+      document.getElementById("shipping-modal").classList.remove("hidden");
+    }
+
+    function closeShippingModal() {
+      document.getElementById("shipping-modal").classList.add("hidden");
+    }
+
+    function closeSuccessModal() {
+      document.getElementById("success-modal").classList.add("hidden");
+    }
+
+    let customerShippingData = {};
+
+    function handleShippingSubmit(event) {
+      event.preventDefault();
+      
+      customerShippingData = {
+        name: document.getElementById("cust-name").value.trim(),
+        email: document.getElementById("cust-email").value.trim(),
+        phone: document.getElementById("cust-phone").value.trim(),
+        address: document.getElementById("cust-address").value.trim(),
+        city: document.getElementById("cust-city").value.trim(),
+        pincode: document.getElementById("cust-pincode").value.trim(),
+        state: document.getElementById("cust-state").value.trim()
+      };
+
+      closeShippingModal();
+
+      if (chosenPaymentMode === "upi") {
+        triggerRazorpay();
+      } else {
+        triggerCodOrder();
+      }
+    }
+
+    function triggerCodOrder() {
+      const v = variants[selectedPack];
+      const totalAmount = v.codPrice * selectedQuantity;
+      const orderId = "COD_" + Date.now().toString().slice(-6);
+
+      let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
+      orders.push({
+        item: `${v.name} (Qty: ${selectedQuantity})`,
+        amount: `₹${totalAmount}`,
+        paymentMode: "Cash on Delivery",
+        paymentId: orderId,
+        customer: customerShippingData,
+        date: new Date().toLocaleString()
+      });
+      localStorage.setItem("comve_orders", JSON.stringify(orders));
+
+      document.getElementById("success-pay-mode").innerText = "Cash on Delivery (COD)";
+      document.getElementById("row-payment-id").classList.remove("hidden");
+      document.getElementById("success-payment-id").innerText = orderId;
+      document.getElementById("success-product-title").innerText = `${v.name} × ${selectedQuantity}`;
+      document.getElementById("success-amount").innerText = `₹${totalAmount} (Payable at delivery)`;
+      document.getElementById("success-subtext").innerText = "Thank you! Your Cash on Delivery order is confirmed and being prepared for shipment.";
+      document.getElementById("success-modal").classList.remove("hidden");
+    }
+
+    function triggerRazorpay() {
+      const v = variants[selectedPack];
+      const totalAmount = v.upiPrice * selectedQuantity;
+      const amountInPaise = totalAmount * 100;
+
+      const options = {
+        "key": RAZORPAY_KEY_ID,
+        "amount": amountInPaise,
+        "currency": "INR",
+        "name": "COMVÉ",
+        "description": `${v.name} (Qty: ${selectedQuantity})`,
+        "image": "New folder/1.jpeg",
+        "handler": function (response) {
+          const paymentId = response.razorpay_payment_id;
+
+          let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
+          orders.push({
+            item: `${v.name} (Qty: ${selectedQuantity})`,
+            amount: `₹${totalAmount}`,
+            paymentMode: "Prepaid UPI (Razorpay)",
+            paymentId: paymentId,
+            customer: customerShippingData,
+            date: new Date().toLocaleString()
+          });
+          localStorage.setItem("comve_orders", JSON.stringify(orders));
+
+          document.getElementById("success-pay-mode").innerText = "Prepaid UPI (Razorpay)";
+          document.getElementById("row-payment-id").classList.remove("hidden");
+          document.getElementById("success-payment-id").innerText = paymentId;
+          document.getElementById("success-product-title").innerText = `${v.name} × ${selectedQuantity}`;
+          document.getElementById("success-amount").innerText = `₹${totalAmount}`;
+          document.getElementById("success-subtext").innerText = "Thank you for your purchase. A payment & order confirmation receipt has been sent to your email.";
+          document.getElementById("success-modal").classList.remove("hidden");
+        },
+        "prefill": {
+          "name": customerShippingData.name,
+          "email": customerShippingData.email,
+          "contact": customerShippingData.phone
+        },
+        "theme": {
+          "color": "#121212"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', function (response) {
+        alert("Payment was not completed: " + response.error.description);
+      });
+      rzp.open();
+    }
+
+    function changeLocation() {
+      const pin = prompt("Enter your Delivery Pincode:", "821307");
+      if (pin) {
+        document.getElementById("nav-location").innerText = "PIN: " + pin;
+      }
+    }
+
+    function openAdmin() {
+      document.getElementById("admin-modal").classList.remove("hidden");
+    }
+
+    function closeAdmin() {
+      document.getElementById("admin-modal").classList.add("hidden");
+      document.getElementById("admin-error").classList.add("hidden");
+      document.getElementById("admin-pin-input").value = "";
+    }
+
+    function checkAdminPin() {
+      const pin = document.getElementById("admin-pin-input").value;
+      if (pin === "1234") {
+        document.getElementById("admin-login-view").classList.add("hidden");
+        document.getElementById("admin-orders-view").classList.remove("hidden");
+        renderOrders();
+      } else {
+        document.getElementById("admin-error").classList.remove("hidden");
+      }
+    }
+
+    function renderOrders() {
+      const list = document.getElementById("orders-list");
+      const orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
+      if(orders.length === 0) {
+        list.innerHTML = `<p class="text-xs text-stone-400">No orders placed yet.</p>`;
+        return;
+      }
+      list.innerHTML = orders.reverse().map(o => `
+        <div class="border rounded-xl p-3 text-xs bg-stone-50 space-y-1.5 shadow-sm">
+          <div class="flex justify-between items-start border-b pb-1.5">
+            <div>
+              <div class="font-bold text-stone-900">${o.item}</div>
+              <div class="text-[10px] text-stone-500">${o.date} • <span class="font-semibold text-stone-800">${o.paymentMode || 'Prepaid'}</span></div>
+              ${o.paymentId ? `<div class="text-[10px] text-emerald-700 font-mono font-semibold">Ref ID: ${o.paymentId}</div>` : ''}
+            </div>
+            <div class="font-black text-sm text-stone-900">${o.amount}</div>
+          </div>
+          ${o.customer ? `
+            <div class="text-[11px] text-stone-700 space-y-0.5 pt-1">
+              <div><strong>Customer:</strong> ${o.customer.name} (📞 ${o.customer.phone})</div>
+              <div><strong>Email:</strong> ${o.customer.email}</div>
+              <div><strong>Address:</strong> ${o.customer.address}, ${o.customer.city}, ${o.customer.state} - ${o.customer.pincode}</div>
+            </div>
+          ` : ''}
+        </div>
+      `).join("");
+    }
+
+    function clearOrders() {
+      if(confirm("Clear order log?")) {
+        localStorage.removeItem("comve_orders");
+        renderOrders();
+      }
+    }
+
+    recalculateAll();
+  </script>
+</body>
+</html>
