@@ -34,10 +34,10 @@
 </head>
 <body class="bg-[#FAFAFA] text-[#18181B] font-sans antialiased min-h-screen flex flex-col justify-between pb-24 md:pb-0">
 
-  <!-- TOP BANNER -->
+  <!-- TOP BANNER (FLAT ₹100 OFF ON UPI) -->
   <div class="bg-brand-black text-white text-xs py-2 px-4 text-center font-medium tracking-wide">
     <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
-    FLASH OFFER: Flat ₹15 OFF with Instant UPI Payment. Ships within 24 Hours.
+    PREPAID SPECIAL: Flat ₹100 OFF with Instant UPI Payment. Ships within 24 Hours.
   </div>
 
   <!-- NAVIGATION -->
@@ -135,13 +135,13 @@
           </span>
         </div>
 
-        <!-- Inclusive of all taxes note -->
         <p class="text-[11px] text-stone-500 font-medium">Inclusive of all taxes</p>
 
+        <!-- UPI Auto Discount Banner -->
         <div class="bg-emerald-50/70 border border-emerald-200 rounded-lg p-2.5 flex items-center justify-between text-xs mt-1">
           <div class="flex items-center gap-2">
             <span class="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">UPI AUTO-APPLIED</span>
-            <span class="text-emerald-950 font-medium">Extra ₹15 instant discount applied for Prepaid Orders</span>
+            <span class="text-emerald-950 font-medium">Flat ₹100 Instant Discount applied for UPI Orders</span>
           </div>
           <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-700"></i>
         </div>
@@ -164,7 +164,7 @@
                 <span class="text-[10px] font-bold text-emerald-700 block">59% OFF</span>
               </div>
             </div>
-            <p class="text-[10px] text-stone-500 mt-2">₹299 base – ₹15 UPI off</p>
+            <p class="text-[10px] text-stone-500 mt-2">₹384 base – ₹100 UPI off</p>
           </div>
 
           <!-- Pack of 2 -->
@@ -181,7 +181,7 @@
                 <span class="text-[10px] font-bold text-emerald-700 block">62% OFF</span>
               </div>
             </div>
-            <p class="text-[10px] text-stone-500 mt-2">₹545 base – ₹15 UPI off</p>
+            <p class="text-[10px] text-stone-500 mt-2">₹630 base – ₹100 UPI off</p>
           </div>
         </div>
       </div>
@@ -255,7 +255,7 @@
     </div>
   </main>
 
-  <!-- FIXED STICKY BOTTOM CHECKOUT BAR (VISIBLE ON SCROLL) -->
+  <!-- FIXED STICKY BOTTOM CHECKOUT BAR -->
   <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
     <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
       <div class="flex flex-col">
@@ -264,7 +264,7 @@
           <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹699</span>
           <span id="sticky-discount" class="text-xs font-bold text-emerald-700">59% OFF</span>
         </div>
-        <span class="text-[10px] text-stone-500">Inclusive of all taxes • Free Delivery</span>
+        <span class="text-[10px] text-stone-500">Inclusive of all taxes • Flat ₹100 UPI Off</span>
       </div>
 
       <button onclick="openShippingModal()" class="bg-brand-black hover:bg-stone-800 text-white px-8 py-3 rounded-xl font-bold text-sm flex items-center gap-2 shadow-md transition-transform active:scale-[0.98]">
@@ -277,7 +277,6 @@
   <!-- CART SLIDE-OUT DRAWER -->
   <div id="cart-drawer-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden transition-opacity"></div>
   <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
-    <!-- Header -->
     <div class="p-4 border-b border-stone-200 flex items-center justify-between">
       <div class="flex items-center gap-2">
         <i data-lucide="shopping-bag" class="w-5 h-5 text-stone-800"></i>
@@ -289,7 +288,6 @@
       </button>
     </div>
 
-    <!-- Body / Item List -->
     <div class="p-4 flex-1 overflow-y-auto space-y-4">
       <div class="flex gap-3 bg-stone-50 border border-stone-200 rounded-xl p-3">
         <img src="New folder/1.jpeg" alt="COMVÉ Comb" class="w-20 h-20 object-contain rounded-lg bg-white border border-stone-200 p-1">
@@ -300,7 +298,6 @@
           </div>
 
           <div class="flex items-center justify-between mt-2">
-            <!-- In-Cart Quantity Controls -->
             <div class="flex items-center border border-stone-300 rounded bg-white">
               <button onclick="updateQty(-1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">-</button>
               <span id="drawer-item-qty" class="w-7 text-center font-bold text-xs text-stone-800">1</span>
@@ -314,17 +311,15 @@
         </div>
       </div>
 
-      <!-- Promo Badge in Cart -->
       <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-emerald-950 flex items-start gap-2">
         <i data-lucide="tag" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
         <div>
-          <p class="font-semibold">Instant UPI Discount Applied</p>
+          <p class="font-semibold">Flat ₹100 UPI Discount Applied</p>
           <p class="text-[11px] text-emerald-800 mt-0.5">Includes taxes + Free Express Delivery.</p>
         </div>
       </div>
     </div>
 
-    <!-- Footer / Checkout -->
     <div class="p-4 border-t border-stone-200 bg-stone-50 space-y-3">
       <div class="space-y-1.5 text-xs text-stone-600">
         <div class="flex justify-between">
@@ -332,7 +327,7 @@
           <span id="cart-summary-mrp" class="line-through text-stone-400">₹699</span>
         </div>
         <div class="flex justify-between text-emerald-700 font-medium">
-          <span>Total Savings</span>
+          <span>Total Savings (with ₹100 UPI Off)</span>
           <span id="cart-summary-savings">-₹415</span>
         </div>
         <div class="flex justify-between">
@@ -500,12 +495,9 @@
   </div>
 
   <script>
-    // Lucide Icons Initialization
     lucide.createIcons();
 
-    // ==========================================
-    // CONFIGURATION: RAZORPAY TEST KEY ID
-    // ==========================================
+    // Razorpay Key ID
     const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM";
 
     // Gallery Logic
@@ -546,7 +538,7 @@
       updateGallery();
     }
 
-    // State: Variant & Quantity
+    // State: Variant & Quantity (Flat ₹100 Off per order applied)
     let selectedPack = 1;
     let selectedQuantity = 1;
 
@@ -683,7 +675,7 @@
         "handler": function (response) {
           const paymentId = response.razorpay_payment_id;
 
-          // 1. Save Complete Order & Address into LocalStorage (Admin Panel)
+          // Save Complete Order & Address into LocalStorage (Admin Panel)
           let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
           orders.push({
             item: `${v.name} (Qty: ${selectedQuantity})`,
@@ -694,7 +686,7 @@
           });
           localStorage.setItem("comve_orders", JSON.stringify(orders));
 
-          // 2. Open In-App Confirmation Modal (No WhatsApp redirect required)
+          // Open In-App Confirmation Modal
           document.getElementById("success-payment-id").innerText = paymentId;
           document.getElementById("success-product-title").innerText = `${v.name} × ${selectedQuantity}`;
           document.getElementById("success-amount").innerText = `₹${totalAmount}`;
@@ -782,7 +774,6 @@
       }
     }
 
-    // Initialize calculation
     recalculateAll();
   </script>
 </body>
