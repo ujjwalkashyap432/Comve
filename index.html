@@ -229,22 +229,22 @@
         </div>
       </div>
 
-      <!-- ACTION BUTTONS: ADD TO CART & ORDER NOW -->
+      <!-- ACTION BUTTONS: VIEW CART & PAY WITH RAZORPAY -->
       <div class="flex flex-col sm:flex-row gap-3">
         <button onclick="toggleCart(true)" class="sm:w-1/3 bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
           <i data-lucide="shopping-bag" class="w-4 h-4"></i>
           <span>View Cart</span>
         </button>
-        <button onclick="handleCheckout()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
-          <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-          <span id="cta-button-text">ORDER NOW (PREPAID UPI) — ₹284</span>
+        <button onclick="openShippingModal()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+          <span id="cta-button-text">PAY NOW (UPI / RAZORPAY) — ₹284</span>
         </button>
       </div>
 
       <div class="flex items-center justify-center gap-4 text-[11px] text-stone-500">
         <span class="flex items-center gap-1"><i data-lucide="truck" class="w-3.5 h-3.5"></i> Free Express Shipping</span>
         <span>•</span>
-        <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5"></i> 256-Bit Encrypted Payment</span>
+        <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5"></i> 256-Bit Razorpay Secured</span>
       </div>
     </div>
   </main>
@@ -320,11 +320,72 @@
         </div>
       </div>
 
-      <button onclick="handleCheckout()" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-md">
-        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-        <span>PROCEED TO ORDER VIA WHATSAPP</span>
+      <button onclick="toggleCart(false); openShippingModal();" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-md">
+        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+        <span>PROCEED TO SHIPPING & PAYMENT</span>
       </button>
       <p class="text-[10px] text-center text-stone-400">100% Replacement Guarantee • Non-Returnable Personal Care Item</p>
+    </div>
+  </div>
+
+  <!-- SHIPPING DETAILS MODAL (OPTION 1) -->
+  <div id="shipping-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-stone-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b pb-3 mb-4">
+        <div>
+          <h3 class="font-bold text-lg text-stone-900 flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-5 h-5 text-emerald-600"></i> Delivery Address
+          </h3>
+          <p class="text-xs text-stone-500 mt-0.5">Enter shipping details to ensure safe dispatch</p>
+        </div>
+        <button onclick="closeShippingModal()" class="text-stone-400 hover:text-stone-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleShippingSubmit(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Full Name *</label>
+          <input type="text" id="cust-name" required placeholder="e.g. Ramesh Kumar" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Mobile Number (For Courier Tracking & WhatsApp) *</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-stone-300 bg-stone-100 text-stone-600 text-xs font-semibold">+91</span>
+            <input type="tel" id="cust-phone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" class="w-full border border-stone-300 rounded-r-lg px-3 py-2 text-sm focus:border-black outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">Complete Street Address (House/Flat No, Landmark) *</label>
+          <textarea id="cust-address" required rows="2" placeholder="e.g. Flat 302, Palm Heights, Near City Mall" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1">City / Town *</label>
+            <input type="text" id="cust-city" required placeholder="e.g. Dehri" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-stone-700 mb-1">Pincode *</label>
+            <input type="text" id="cust-pincode" required pattern="[0-9]{6}" placeholder="e.g. 821307" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-stone-700 mb-1">State *</label>
+          <input type="text" id="cust-state" required placeholder="e.g. Bihar" class="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:border-black outline-none">
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
+            <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
+            <span id="shipping-btn-text">PROCEED TO PAY VIA RAZORPAY — ₹284</span>
+          </button>
+          <p class="text-[10px] text-center text-stone-400 mt-2">Encrypted 256-Bit Payment Gateway with Instant UPI</p>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -366,7 +427,7 @@
           <h4 class="font-semibold text-sm">Customer Orders Log</h4>
           <button onclick="clearOrders()" class="text-xs text-red-600 underline">Clear Log</button>
         </div>
-        <div class="max-h-60 overflow-y-auto space-y-2" id="orders-list"></div>
+        <div class="max-h-72 overflow-y-auto space-y-3" id="orders-list"></div>
       </div>
     </div>
   </div>
@@ -375,7 +436,13 @@
     // Lucide Icons Initialization
     lucide.createIcons();
 
-    // Image Gallery Logic
+    // ==========================================
+    // CONFIGURATION: RAZORPAY & WHATSAPP
+    // ==========================================
+    const RAZORPAY_KEY_ID = "rzp_test_Tr1Ewsc9rugBmM"; // <--- PUT YOUR REAL RAZORPAY KEY ID HERE
+    const MY_WHATSAPP_NUMBER = "919870388432";       // <--- PUT YOUR 10-DIGIT WHATSAPP NUMBER HERE
+
+    // Gallery Logic
     const productImages = [
       "New folder/1.jpeg",
       "New folder/2.jpeg",
@@ -434,7 +501,7 @@
       document.getElementById("hero-price").innerText = "₹" + totalAmount;
       document.getElementById("hero-mrp").innerText = "₹" + totalMrp;
       document.getElementById("hero-discount-pill").innerText = `SAVE ₹${totalSavings} (Includes ₹${15 * selectedQuantity} UPI OFF)`;
-      document.getElementById("cta-button-text").innerText = `ORDER NOW (PREPAID UPI) — ₹${totalAmount}`;
+      document.getElementById("cta-button-text").innerText = `PAY NOW (UPI / RAZORPAY) — ₹${totalAmount}`;
       document.getElementById("page-quantity").innerText = selectedQuantity;
 
       // Update header & drawer badge count
@@ -449,6 +516,9 @@
       document.getElementById("cart-summary-mrp").innerText = "₹" + totalMrp;
       document.getElementById("cart-summary-savings").innerText = "-₹" + totalSavings;
       document.getElementById("cart-summary-total").innerText = "₹" + totalAmount;
+
+      // Update modal button
+      document.getElementById("shipping-btn-text").innerText = `PROCEED TO PAY VIA RAZORPAY — ₹${totalAmount}`;
     }
 
     function selectVariant(pack) {
@@ -493,40 +563,103 @@
       }
     }
 
-    // Location Change Prompt
+    // Shipping Modal Controls
+    function openShippingModal() {
+      document.getElementById("shipping-modal").classList.remove("hidden");
+    }
+
+    function closeShippingModal() {
+      document.getElementById("shipping-modal").classList.add("hidden");
+    }
+
+    // Temporary storage for customer shipping details
+    let customerShippingData = {};
+
+    function handleShippingSubmit(event) {
+      event.preventDefault();
+      
+      customerShippingData = {
+        name: document.getElementById("cust-name").value.trim(),
+        phone: document.getElementById("cust-phone").value.trim(),
+        address: document.getElementById("cust-address").value.trim(),
+        city: document.getElementById("cust-city").value.trim(),
+        pincode: document.getElementById("cust-pincode").value.trim(),
+        state: document.getElementById("cust-state").value.trim()
+      };
+
+      closeShippingModal();
+      triggerRazorpay();
+    }
+
+    // Razorpay Integration with Customer Details
+    function triggerRazorpay() {
+      const v = variants[selectedPack];
+      const totalAmount = v.price * selectedQuantity;
+      const amountInPaise = totalAmount * 100;
+
+      const options = {
+        "key": RAZORPAY_KEY_ID,
+        "amount": amountInPaise,
+        "currency": "INR",
+        "name": "COMVÉ",
+        "description": `${v.name} (Qty: ${selectedQuantity})`,
+        "image": "New folder/1.jpeg",
+        "handler": function (response) {
+          const paymentId = response.razorpay_payment_id;
+
+          // 1. Save Complete Order & Address to LocalStorage for Admin
+          let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
+          orders.push({
+            item: `${v.name} (Qty: ${selectedQuantity})`,
+            amount: `₹${totalAmount}`,
+            paymentId: paymentId,
+            customer: customerShippingData,
+            date: new Date().toLocaleString()
+          });
+          localStorage.setItem("comve_orders", JSON.stringify(orders));
+
+          // 2. Format Complete WhatsApp Notification
+          const waMessage = encodeURIComponent(
+            `*NEW ORDER RECEIVED — COMVÉ Scalp Applicator*\n\n` +
+            `*Product:* ${v.name}\n` +
+            `*Quantity:* ${selectedQuantity}\n` +
+            `*Total Paid:* ₹${totalAmount}\n` +
+            `*Payment Status:* SUCCESSFUL\n` +
+            `*Razorpay Payment ID:* ${paymentId}\n\n` +
+            `*DELIVERY ADDRESS DETAILS:*\n` +
+            `• *Name:* ${customerShippingData.name}\n` +
+            `• *Phone:* ${customerShippingData.phone}\n` +
+            `• *Address:* ${customerShippingData.address}\n` +
+            `• *City:* ${customerShippingData.city}\n` +
+            `• *Pincode:* ${customerShippingData.pincode}\n` +
+            `• *State:* ${customerShippingData.state}`
+          );
+
+          // 3. Auto-redirect to WhatsApp
+          window.location.href = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${waMessage}`;
+        },
+        "prefill": {
+          "name": customerShippingData.name,
+          "contact": customerShippingData.phone
+        },
+        "theme": {
+          "color": "#121212"
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', function (response) {
+        alert("Payment was not completed: " + response.error.description);
+      });
+      rzp.open();
+    }
+
+    // Change Location prompt
     function changeLocation() {
       const pin = prompt("Enter your Delivery Pincode:", "821307");
       if (pin) {
         document.getElementById("nav-location").innerText = "PIN: " + pin;
       }
-    }
-
-    // Checkout Flow
-    function handleCheckout() {
-      const v = variants[selectedPack];
-      const totalAmount = v.price * selectedQuantity;
-      
-      // Save order to LocalStorage for Admin dashboard
-      let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
-      orders.push({
-        item: `${v.name} (Qty: ${selectedQuantity})`,
-        amount: `₹${totalAmount}`,
-        date: new Date().toLocaleString()
-      });
-      localStorage.setItem("comve_orders", JSON.stringify(orders));
-
-      // Direct WhatsApp Order Notification
-      const waNumber = "919870388432"; // Replace with your actual 10-digit WhatsApp phone number
-      const waMessage = encodeURIComponent(
-        `Hi COMVÉ Team, I would like to place an order:\n\n` +
-        `• Product: Precision Hair Oil Applicator\n` +
-        `• Variant: ${v.name}\n` +
-        `• Quantity: ${selectedQuantity}\n` +
-        `• Total Amount: ₹${totalAmount}\n` +
-        `• Payment Mode: Prepaid UPI (₹15 off applied)\n\n` +
-        `Please share payment link and shipping confirmation.`
-      );
-      window.open(`https://wa.me/${waNumber}?text=${waMessage}`, "_blank");
     }
 
     // Admin Dashboard Logic
@@ -559,12 +692,21 @@
         return;
       }
       list.innerHTML = orders.reverse().map(o => `
-        <div class="border rounded-lg p-2.5 text-xs bg-stone-50 flex justify-between items-center">
-          <div>
-            <div class="font-bold text-stone-800">${o.item}</div>
-            <div class="text-[10px] text-stone-500">${o.date}</div>
+        <div class="border rounded-xl p-3 text-xs bg-stone-50 space-y-1.5 shadow-sm">
+          <div class="flex justify-between items-start border-b pb-1.5">
+            <div>
+              <div class="font-bold text-stone-900">${o.item}</div>
+              <div class="text-[10px] text-stone-500">${o.date}</div>
+              ${o.paymentId ? `<div class="text-[10px] text-emerald-700 font-mono">ID: ${o.paymentId}</div>` : ''}
+            </div>
+            <div class="font-black text-sm text-stone-900">${o.amount}</div>
           </div>
-          <div class="font-black text-stone-900">${o.amount}</div>
+          ${o.customer ? `
+            <div class="text-[11px] text-stone-700 space-y-0.5 pt-1">
+              <div><strong>Customer:</strong> ${o.customer.name} (📞 ${o.customer.phone})</div>
+              <div><strong>Address:</strong> ${o.customer.address}, ${o.customer.city}, ${o.customer.state} - ${o.customer.pincode}</div>
+            </div>
+          ` : ''}
         </div>
       `).join("");
     }
