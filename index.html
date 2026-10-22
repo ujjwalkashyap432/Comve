@@ -567,12 +567,12 @@
     // YOUR GOOGLE SHEETS WEB APP URL
     const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbxyQU2cra1HUDJKVgDA00OGGqB3VyzecPs7c5vVxEf8NRLDKjDzsFwCLFN09I_JvntmEw/exec";
 
-    // EmailJS Credentials (optional backup)
-    const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";
-    const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+    // EmailJS Credentials
+    const EMAILJS_PUBLIC_KEY = "lzBCAjAon1KGWzHsf";
+    const EMAILJS_SERVICE_ID = "service_zcvwajr";
+    const EMAILJS_TEMPLATE_ID = "template_wuv9cgd";
 
-    if (EMAILJS_PUBLIC_KEY !== "YOUR_EMAILJS_PUBLIC_KEY" && window.emailjs) {
+    if (window.emailjs) {
       emailjs.init(EMAILJS_PUBLIC_KEY);
     }
 
@@ -601,7 +601,7 @@
     }
 
     function sendOrderEmail(orderData) {
-      if (EMAILJS_PUBLIC_KEY === "YOUR_EMAILJS_PUBLIC_KEY" || !window.emailjs) return;
+      if (!window.emailjs) return;
       const emailParams = {
         order_id: orderData.orderId,
         item_name: orderData.item,
@@ -616,7 +616,9 @@
         customer_state: orderData.customer.state,
         customer_pincode: orderData.customer.pincode
       };
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams).catch(console.error);
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, emailParams)
+        .then(() => console.log("Confirmation email sent successfully."))
+        .catch(err => console.error("EmailJS Error:", err));
     }
 
     // ==========================================
