@@ -34,7 +34,7 @@
     .custom-scrollbar::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 4px; }
   </style>
 </head>
-<body class="bg-[#FAFAFA] text-[#18181B] font-sans antialiased min-h-screen flex flex-col justify-between pb-28 md:pb-0">
+<body class="bg-[#FAFAFA] text-[#18181B] font-sans antialiased min-h-screen flex flex-col justify-between pb-24 md:pb-0">
 
   <!-- TOP BANNER -->
   <div class="bg-brand-black text-white text-xs py-2 px-4 text-center font-medium tracking-wide">
@@ -283,8 +283,8 @@
     </div>
   </main>
 
-  <!-- FIXED STICKY BOTTOM CHECKOUT BAR -->
-  <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+  <!-- FIXED STICKY BOTTOM CHECKOUT BAR (MOBILE ONLY) -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-stone-200 px-4 py-3 z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
     <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
       <div class="flex flex-col min-w-0 pr-1">
         <div class="flex items-baseline gap-2">
@@ -295,7 +295,7 @@
         <span id="sticky-subtext" class="text-[10px] text-stone-500 truncate">Inclusive of all taxes • ₹299 (UPI) / ₹399 (COD)</span>
       </div>
 
-      <button onclick="openShippingModal()" class="flex-shrink-0 bg-brand-black hover:bg-stone-800 text-white px-5 sm:px-8 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-transform active:scale-[0.98] whitespace-nowrap">
+      <button onclick="openShippingModal()" class="flex-shrink-0 bg-brand-black hover:bg-stone-800 text-white px-5 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-transform active:scale-[0.98] whitespace-nowrap">
         <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400 flex-shrink-0"></i>
         <span>BUY NOW</span>
       </button>
@@ -532,7 +532,7 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (PERFECTLY VISIBLE ON PC & MOBILE) -->
   <footer class="bg-white border-t border-stone-200 py-6 mt-12 text-center text-xs text-stone-500">
     <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p>© 2026 COMVÉ Hair Essentials. All rights reserved.</p>
