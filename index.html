@@ -50,10 +50,12 @@
           <span id="nav-location">Dehri - 821307</span>
           <i data-lucide="chevron-down" class="w-3 h-3 text-stone-500 cursor-pointer" onclick="changeLocation()"></i>
         </div>
-        <div class="relative cursor-pointer p-1.5 rounded-full hover:bg-stone-100">
+        
+        <!-- Cart Icon Button -->
+        <button onclick="toggleCart(true)" class="relative cursor-pointer p-2 rounded-full hover:bg-stone-100 transition-colors focus:outline-none">
           <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-black"></i>
-          <span class="absolute top-0 right-0 bg-brand-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
-        </div>
+          <span id="header-cart-count" class="absolute top-0 right-0 bg-brand-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
+        </button>
       </div>
     </div>
   </header>
@@ -65,7 +67,7 @@
     <div class="flex flex-col gap-4">
       <div class="relative bg-white border border-stone-200 rounded-2xl overflow-hidden shadow-sm aspect-square flex items-center justify-center">
         <img id="main-product-image" src="New folder/1.jpeg" alt="COMVÉ Hair Oil Applicator" class="w-full h-full object-contain rounded-xl p-2 transition-all duration-300">
-        
+
         <!-- Carousel Buttons -->
         <button onclick="prevImage()" class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow border border-stone-200 flex items-center justify-center hover:bg-white text-stone-700">
           <i data-lucide="chevron-left" class="w-4 h-4"></i>
@@ -178,6 +180,23 @@
         </div>
       </div>
 
+      <!-- QUANTITY SELECTOR -->
+      <div class="bg-white border border-stone-200 rounded-xl p-3.5 flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-stone-700 block">Quantity</span>
+          <span class="text-[11px] text-stone-500">Choose multiple packs to save on shipping</span>
+        </div>
+        <div class="flex items-center border border-stone-300 rounded-lg overflow-hidden bg-stone-50">
+          <button onclick="updateQty(-1)" class="w-9 h-9 flex items-center justify-center hover:bg-stone-200 text-stone-700 font-bold transition-colors">
+            <i data-lucide="minus" class="w-4 h-4"></i>
+          </button>
+          <span id="page-quantity" class="w-10 text-center font-bold text-sm text-stone-900">1</span>
+          <button onclick="updateQty(1)" class="w-9 h-9 flex items-center justify-center hover:bg-stone-200 text-stone-700 font-bold transition-colors">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
       <!-- HYGIENE REPLACEMENT NOTICE -->
       <div class="bg-[#FFFDF9] border border-amber-200/80 rounded-xl p-3.5 space-y-2 text-xs">
         <div class="flex items-center gap-2 font-semibold text-amber-950">
@@ -210,11 +229,17 @@
         </div>
       </div>
 
-      <!-- CTA BUTTON -->
-      <button onclick="handleCheckout()" class="w-full bg-brand-black hover:bg-stone-800 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
-        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-        <span id="cta-button-text">ORDER NOW (PREPAID UPI) — ₹284</span>
-      </button>
+      <!-- ACTION BUTTONS: ADD TO CART & ORDER NOW -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button onclick="toggleCart(true)" class="sm:w-1/3 bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>View Cart</span>
+        </button>
+        <button onclick="handleCheckout()" class="flex-1 bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
+          <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+          <span id="cta-button-text">ORDER NOW (PREPAID UPI) — ₹284</span>
+        </button>
+      </div>
 
       <div class="flex items-center justify-center gap-4 text-[11px] text-stone-500">
         <span class="flex items-center gap-1"><i data-lucide="truck" class="w-3.5 h-3.5"></i> Free Express Shipping</span>
@@ -223,6 +248,85 @@
       </div>
     </div>
   </main>
+
+  <!-- CART SLIDE-OUT DRAWER -->
+  <div id="cart-drawer-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 hidden transition-opacity"></div>
+  <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+    <!-- Header -->
+    <div class="p-4 border-b border-stone-200 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-stone-800"></i>
+        <h3 class="font-bold text-base text-stone-900">Your Cart</h3>
+        <span id="drawer-pill-count" class="bg-stone-100 text-stone-700 text-xs px-2 py-0.5 rounded-full font-semibold">1 item</span>
+      </div>
+      <button onclick="toggleCart(false)" class="p-1.5 rounded-full hover:bg-stone-100 text-stone-500 hover:text-stone-800">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Body / Item List -->
+    <div class="p-4 flex-1 overflow-y-auto space-y-4">
+      <div class="flex gap-3 bg-stone-50 border border-stone-200 rounded-xl p-3">
+        <img src="New folder/1.jpeg" alt="COMVÉ Comb" class="w-20 h-20 object-contain rounded-lg bg-white border border-stone-200 p-1">
+        <div class="flex-1 flex flex-col justify-between">
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-stone-900 leading-tight">COMVÉ Hair Oil & Serum Applicator</h4>
+            <span id="cart-item-variant-label" class="text-[11px] text-stone-500">Pack of 1 (Single User Kit)</span>
+          </div>
+
+          <div class="flex items-center justify-between mt-2">
+            <!-- In-Cart Quantity Controls -->
+            <div class="flex items-center border border-stone-300 rounded bg-white">
+              <button onclick="updateQty(-1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">-</button>
+              <span id="drawer-item-qty" class="w-7 text-center font-bold text-xs text-stone-800">1</span>
+              <button onclick="updateQty(1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">+</button>
+            </div>
+            <div class="text-right">
+              <span id="drawer-item-mrp" class="text-[10px] text-stone-400 line-through block">₹699</span>
+              <span id="drawer-item-price" class="font-extrabold text-sm text-stone-900">₹284</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo Badge in Cart -->
+      <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-emerald-950 flex items-start gap-2">
+        <i data-lucide="tag" class="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5"></i>
+        <div>
+          <p class="font-semibold">Instant UPI Discount Applied</p>
+          <p class="text-[11px] text-emerald-800 mt-0.5">₹15 OFF per pack + Free Express Shipping included.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer / Checkout -->
+    <div class="p-4 border-t border-stone-200 bg-stone-50 space-y-3">
+      <div class="space-y-1.5 text-xs text-stone-600">
+        <div class="flex justify-between">
+          <span>Subtotal</span>
+          <span id="cart-summary-mrp" class="line-through text-stone-400">₹699</span>
+        </div>
+        <div class="flex justify-between text-emerald-700 font-medium">
+          <span>Total Savings</span>
+          <span id="cart-summary-savings">-₹415</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Delivery</span>
+          <span class="text-emerald-700 font-semibold uppercase text-[10px]">FREE EXPRESS</span>
+        </div>
+        <div class="border-t border-stone-200 pt-2 flex justify-between text-sm font-black text-stone-900">
+          <span>Final Total</span>
+          <span id="cart-summary-total">₹284</span>
+        </div>
+      </div>
+
+      <button onclick="handleCheckout()" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-md">
+        <i data-lucide="zap" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+        <span>PROCEED TO ORDER VIA WHATSAPP</span>
+      </button>
+      <p class="text-[10px] text-center text-stone-400">100% Replacement Guarantee • Non-Returnable Personal Care Item</p>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer class="bg-white border-t border-stone-200 py-6 mt-12 text-center text-xs text-stone-500">
@@ -262,9 +366,7 @@
           <h4 class="font-semibold text-sm">Customer Orders Log</h4>
           <button onclick="clearOrders()" class="text-xs text-red-600 underline">Clear Log</button>
         </div>
-        <div class="max-h-60 overflow-y-auto space-y-2" id="orders-list">
-          <!-- Orders rendered here -->
-        </div>
+        <div class="max-h-60 overflow-y-auto space-y-2" id="orders-list"></div>
       </div>
     </div>
   </div>
@@ -311,12 +413,43 @@
       updateGallery();
     }
 
-    // Variant Selection Logic
+    // State: Variant & Quantity
     let selectedPack = 1;
+    let selectedQuantity = 1;
+
     const variants = {
-      1: { price: 284, mrp: 699, discount: "SAVE ₹415 (Includes ₹15 UPI OFF)", text: "ORDER NOW (PREPAID UPI) — ₹284" },
-      2: { price: 530, mrp: 1399, discount: "SAVE ₹869 (Includes ₹15 UPI OFF)", text: "ORDER NOW (PREPAID UPI) — ₹530" }
+      1: { name: "Pack of 1 (Single User Kit)", price: 284, mrp: 699 },
+      2: { name: "Pack of 2 (Double Value Kit)", price: 530, mrp: 1399 }
     };
+
+    function recalculateAll() {
+      const v = variants[selectedPack];
+      const unitPrice = v.price;
+      const unitMrp = v.mrp;
+      const totalAmount = unitPrice * selectedQuantity;
+      const totalMrp = unitMrp * selectedQuantity;
+      const totalSavings = totalMrp - totalAmount;
+
+      // Update main product area
+      document.getElementById("hero-price").innerText = "₹" + totalAmount;
+      document.getElementById("hero-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("hero-discount-pill").innerText = `SAVE ₹${totalSavings} (Includes ₹${15 * selectedQuantity} UPI OFF)`;
+      document.getElementById("cta-button-text").innerText = `ORDER NOW (PREPAID UPI) — ₹${totalAmount}`;
+      document.getElementById("page-quantity").innerText = selectedQuantity;
+
+      // Update header & drawer badge count
+      document.getElementById("header-cart-count").innerText = selectedQuantity;
+      document.getElementById("drawer-pill-count").innerText = `${selectedQuantity} ${selectedQuantity > 1 ? 'items' : 'item'}`;
+
+      // Update cart drawer items & summary
+      document.getElementById("cart-item-variant-label").innerText = v.name;
+      document.getElementById("drawer-item-qty").innerText = selectedQuantity;
+      document.getElementById("drawer-item-price").innerText = "₹" + totalAmount;
+      document.getElementById("drawer-item-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("cart-summary-mrp").innerText = "₹" + totalMrp;
+      document.getElementById("cart-summary-savings").innerText = "-₹" + totalSavings;
+      document.getElementById("cart-summary-total").innerText = "₹" + totalAmount;
+    }
 
     function selectVariant(pack) {
       selectedPack = pack;
@@ -331,10 +464,33 @@
         card1.className = "cursor-pointer border border-stone-200 bg-white rounded-xl p-3 transition-all relative";
       }
 
-      document.getElementById("hero-price").innerText = "₹" + variants[pack].price;
-      document.getElementById("hero-mrp").innerText = "₹" + variants[pack].mrp;
-      document.getElementById("hero-discount-pill").innerText = variants[pack].discount;
-      document.getElementById("cta-button-text").innerText = variants[pack].text;
+      recalculateAll();
+    }
+
+    function updateQty(delta) {
+      const next = selectedQuantity + delta;
+      if (next >= 1 && next <= 10) {
+        selectedQuantity = next;
+        recalculateAll();
+      }
+    }
+
+    // Cart Drawer Toggle
+    function toggleCart(open) {
+      const drawer = document.getElementById("cart-drawer");
+      const overlay = document.getElementById("cart-drawer-overlay");
+
+      if (open) {
+        overlay.classList.remove("hidden");
+        setTimeout(() => {
+          drawer.classList.remove("translate-x-full");
+        }, 10);
+      } else {
+        drawer.classList.add("translate-x-full");
+        setTimeout(() => {
+          overlay.classList.add("hidden");
+        }, 300);
+      }
     }
 
     // Location Change Prompt
@@ -347,20 +503,29 @@
 
     // Checkout Flow
     function handleCheckout() {
-      const currentPrice = variants[selectedPack].price;
+      const v = variants[selectedPack];
+      const totalAmount = v.price * selectedQuantity;
       
       // Save order to LocalStorage for Admin dashboard
       let orders = JSON.parse(localStorage.getItem("comve_orders") || "[]");
       orders.push({
-        item: `Pack of ${selectedPack}`,
-        amount: `₹${currentPrice}`,
+        item: `${v.name} (Qty: ${selectedQuantity})`,
+        amount: `₹${totalAmount}`,
         date: new Date().toLocaleString()
       });
       localStorage.setItem("comve_orders", JSON.stringify(orders));
 
       // Direct WhatsApp Order Notification
-      const waNumber = "919870388432"; // Replace with your WhatsApp Business number
-      const waMessage = encodeURIComponent(`Hi COMVÉ Team, I would like to place an order for:\n- Pack: Pack of ${selectedPack}\n- Total: ₹${currentPrice}\n- Payment: Prepaid UPI\nPlease share delivery details.`);
+      const waNumber = "919870388432"; // Replace with your actual 10-digit WhatsApp phone number
+      const waMessage = encodeURIComponent(
+        `Hi COMVÉ Team, I would like to place an order:\n\n` +
+        `• Product: Precision Hair Oil Applicator\n` +
+        `• Variant: ${v.name}\n` +
+        `• Quantity: ${selectedQuantity}\n` +
+        `• Total Amount: ₹${totalAmount}\n` +
+        `• Payment Mode: Prepaid UPI (₹15 off applied)\n\n` +
+        `Please share payment link and shipping confirmation.`
+      );
       window.open(`https://wa.me/${waNumber}?text=${waMessage}`, "_blank");
     }
 
@@ -410,6 +575,9 @@
         renderOrders();
       }
     }
+
+    // Initialize calculation
+    recalculateAll();
   </script>
 </body>
 </html>
