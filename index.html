@@ -122,9 +122,9 @@
       <div class="bg-white border border-stone-200 rounded-xl p-4 flex flex-col gap-2.5 shadow-sm">
         <div class="flex items-baseline gap-3">
           <span id="hero-price" class="text-3xl font-black text-stone-900">₹349</span>
-          <span id="hero-mrp" class="text-stone-400 line-through text-base">₹449</span>
+          <span id="hero-mrp" class="text-stone-400 line-through text-base">₹599</span>
           <span id="hero-discount-pill" class="bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200">
-            22% OFF
+            42% OFF
           </span>
         </div>
 
@@ -151,9 +151,9 @@
                 <span class="text-[11px] text-stone-500">Single User Kit</span>
               </div>
               <div class="text-right">
-                <span class="text-[11px] text-stone-400 line-through block">₹449</span>
+                <span class="text-[11px] text-stone-400 line-through block">₹599</span>
                 <span class="font-black text-sm text-brand-black">₹349</span>
-                <span class="text-[10px] font-bold text-emerald-700 block">22% OFF</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">42% OFF</span>
               </div>
             </div>
             <p class="text-[10px] text-stone-500 mt-2">₹349 UPI / ₹449 COD</p>
@@ -168,9 +168,9 @@
                 <span class="text-[11px] text-emerald-700 font-semibold">Double Value Kit</span>
               </div>
               <div class="text-right">
-                <span class="text-[11px] text-stone-400 line-through block">₹899</span>
+                <span class="text-[11px] text-stone-400 line-through block">₹1,099</span>
                 <span class="font-black text-sm text-brand-black">₹599</span>
-                <span class="text-[10px] font-bold text-emerald-700 block">33% OFF</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">45% OFF</span>
               </div>
             </div>
             <p class="text-[10px] text-stone-500 mt-2">₹599 UPI / ₹699 COD</p>
@@ -283,8 +283,8 @@
       <div class="flex flex-col min-w-0 pr-1">
         <div class="flex items-baseline gap-2">
           <span id="sticky-price" class="text-lg font-black text-stone-900">₹349</span>
-          <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹449</span>
-          <span id="sticky-discount" class="text-xs font-bold text-emerald-700">22% OFF</span>
+          <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹599</span>
+          <span id="sticky-discount" class="text-xs font-bold text-emerald-700">42% OFF</span>
         </div>
         <span id="sticky-subtext" class="text-[10px] text-stone-500 truncate">Inclusive of all taxes • ₹349 (UPI) / ₹449 (COD)</span>
       </div>
@@ -326,7 +326,7 @@
               <button onclick="updateQty(1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">+</button>
             </div>
             <div class="text-right">
-              <span id="drawer-item-mrp" class="text-[10px] text-stone-400 line-through block">₹449</span>
+              <span id="drawer-item-mrp" class="text-[10px] text-stone-400 line-through block">₹599</span>
               <span id="drawer-item-price" class="font-extrabold text-sm text-stone-900">₹349</span>
             </div>
           </div>
@@ -737,15 +737,15 @@
     }
 
     // Pricing Model:
-    // Pack 1: MRP 449 | COD 449 | UPI 349 (22% off)
-    // Pack 2: MRP 899 | COD 699 | UPI 599 (33% off)
+    // Pack 1: MRP 599 | COD 449 | UPI 349 (42% off)
+    // Pack 2: MRP 1099 | COD 699 | UPI 599 (45% off)
     let selectedPack = 1;
     let selectedQuantity = 1;
     let chosenPaymentMode = "upi";
 
     const variants = {
-      1: { name: "Pack of 1 (Single User Kit)", upiPrice: 349, codPrice: 449, mrp: 449, discountPct: "22% OFF" },
-      2: { name: "Pack of 2 (Double Value Kit)", upiPrice: 599, codPrice: 699, mrp: 899, discountPct: "33% OFF" }
+      1: { name: "Pack of 1 (Single User Kit)", upiPrice: 349, codPrice: 449, mrp: 599, discountPct: "42% OFF" },
+      2: { name: "Pack of 2 (Double Value Kit)", upiPrice: 599, codPrice: 699, mrp: 1099, discountPct: "45% OFF" }
     };
 
     function recalculateAll() {
