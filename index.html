@@ -10,6 +10,25 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2521980504950440');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2521980504950440&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <script>
     tailwind.config = {
       theme: {
@@ -853,6 +872,18 @@
     }
 
     function openShippingModal() {
+      // Trigger Meta Pixel InitiateCheckout Event
+      if (typeof fbq === 'function') {
+        const v = variants[selectedPack];
+        const currentTotal = (chosenPaymentMode === "upi" ? v.upiPrice : v.codPrice) * selectedQuantity;
+        fbq('track', 'InitiateCheckout', {
+          content_name: v.name,
+          num_items: selectedQuantity,
+          value: currentTotal,
+          currency: 'INR'
+        });
+      }
+
       document.getElementById("shipping-modal").classList.remove("hidden");
       refreshIcons();
     }
@@ -915,6 +946,16 @@
 
       // 3. Email receipt backup
       sendOrderEmail(orderData);
+
+      // 4. Fire Meta Pixel Purchase Event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Purchase', {
+          value: totalAmount,
+          currency: 'INR',
+          content_name: v.name,
+          num_items: selectedQuantity
+        });
+      }
 
       // Render Modal
       document.getElementById("success-order-id").innerText = orderId;
@@ -986,6 +1027,16 @@
 
           // 3. Email receipt backup
           sendOrderEmail(orderData);
+
+          // 4. Fire Meta Pixel Purchase Event
+          if (typeof fbq === 'function') {
+            fbq('track', 'Purchase', {
+              value: totalAmount,
+              currency: 'INR',
+              content_name: v.name,
+              num_items: selectedQuantity
+            });
+          }
 
           // Render Modal
           document.getElementById("success-order-id").innerText = receiptId;
