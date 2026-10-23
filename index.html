@@ -48,12 +48,6 @@
       <a href="#" class="font-serif tracking-widest text-2xl font-bold uppercase text-brand-black">COMVÉ</a>
       
       <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1.5 text-xs text-brand-muted bg-stone-100 px-3 py-1.5 rounded-full border border-stone-200">
-          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-stone-600"></i>
-          <span id="nav-location">Dehri - 821307</span>
-          <i data-lucide="chevron-down" class="w-3 h-3 text-stone-500 cursor-pointer" onclick="changeLocation()"></i>
-        </div>
-        
         <button onclick="toggleCart(true)" class="relative cursor-pointer p-2 rounded-full hover:bg-stone-100 transition-colors focus:outline-none">
           <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-black"></i>
           <span id="header-cart-count" class="absolute top-0 right-0 bg-brand-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">1</span>
@@ -127,10 +121,10 @@
       <!-- PRICE CARD -->
       <div class="bg-white border border-stone-200 rounded-xl p-4 flex flex-col gap-2.5 shadow-sm">
         <div class="flex items-baseline gap-3">
-          <span id="hero-price" class="text-3xl font-black text-stone-900">₹299</span>
-          <span id="hero-mrp" class="text-stone-400 line-through text-base">₹399</span>
+          <span id="hero-price" class="text-3xl font-black text-stone-900">₹349</span>
+          <span id="hero-mrp" class="text-stone-400 line-through text-base">₹449</span>
           <span id="hero-discount-pill" class="bg-emerald-50 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200">
-            25% OFF
+            22% OFF
           </span>
         </div>
 
@@ -139,7 +133,7 @@
         <div class="bg-emerald-50/70 border border-emerald-200 rounded-lg p-2.5 flex items-center justify-between text-xs mt-1">
           <div class="flex items-center gap-2">
             <span class="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide">UPI SPECIAL</span>
-            <span id="banner-discount-note" class="text-emerald-950 font-medium">Get it at ₹299 with Instant UPI (COD price: ₹399)</span>
+            <span id="banner-discount-note" class="text-emerald-950 font-medium">Get it at ₹349 with Instant UPI (COD price: ₹449)</span>
           </div>
           <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-700"></i>
         </div>
@@ -157,12 +151,12 @@
                 <span class="text-[11px] text-stone-500">Single User Kit</span>
               </div>
               <div class="text-right">
-                <span class="text-[11px] text-stone-400 line-through block">₹399</span>
-                <span class="font-black text-sm text-brand-black">₹299</span>
-                <span class="text-[10px] font-bold text-emerald-700 block">25% OFF</span>
+                <span class="text-[11px] text-stone-400 line-through block">₹449</span>
+                <span class="font-black text-sm text-brand-black">₹349</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">22% OFF</span>
               </div>
             </div>
-            <p class="text-[10px] text-stone-500 mt-2">₹299 UPI / ₹399 COD</p>
+            <p class="text-[10px] text-stone-500 mt-2">₹349 UPI / ₹449 COD</p>
           </div>
 
           <!-- Pack of 2 -->
@@ -174,12 +168,12 @@
                 <span class="text-[11px] text-emerald-700 font-semibold">Double Value Kit</span>
               </div>
               <div class="text-right">
-                <span class="text-[11px] text-stone-400 line-through block">₹799</span>
-                <span class="font-black text-sm text-brand-black">₹555</span>
-                <span class="text-[10px] font-bold text-emerald-700 block">31% OFF</span>
+                <span class="text-[11px] text-stone-400 line-through block">₹899</span>
+                <span class="font-black text-sm text-brand-black">₹599</span>
+                <span class="text-[10px] font-bold text-emerald-700 block">33% OFF</span>
               </div>
             </div>
-            <p class="text-[10px] text-stone-500 mt-2">₹555 UPI / ₹655 COD</p>
+            <p class="text-[10px] text-stone-500 mt-2">₹599 UPI / ₹699 COD</p>
           </div>
         </div>
       </div>
@@ -288,11 +282,11 @@
     <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
       <div class="flex flex-col min-w-0 pr-1">
         <div class="flex items-baseline gap-2">
-          <span id="sticky-price" class="text-lg font-black text-stone-900">₹299</span>
-          <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹399</span>
-          <span id="sticky-discount" class="text-xs font-bold text-emerald-700">25% OFF</span>
+          <span id="sticky-price" class="text-lg font-black text-stone-900">₹349</span>
+          <span id="sticky-mrp" class="text-xs text-stone-400 line-through">₹449</span>
+          <span id="sticky-discount" class="text-xs font-bold text-emerald-700">22% OFF</span>
         </div>
-        <span id="sticky-subtext" class="text-[10px] text-stone-500 truncate">Inclusive of all taxes • ₹299 (UPI) / ₹399 (COD)</span>
+        <span id="sticky-subtext" class="text-[10px] text-stone-500 truncate">Inclusive of all taxes • ₹349 (UPI) / ₹449 (COD)</span>
       </div>
 
       <button onclick="openShippingModal()" class="flex-shrink-0 bg-brand-black hover:bg-stone-800 text-white px-5 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-transform active:scale-[0.98] whitespace-nowrap">
@@ -332,8 +326,8 @@
               <button onclick="updateQty(1)" class="w-6 h-6 flex items-center justify-center hover:bg-stone-100 text-stone-600 font-bold text-xs">+</button>
             </div>
             <div class="text-right">
-              <span id="drawer-item-mrp" class="text-[10px] text-stone-400 line-through block">₹399</span>
-              <span id="drawer-item-price" class="font-extrabold text-sm text-stone-900">₹299</span>
+              <span id="drawer-item-mrp" class="text-[10px] text-stone-400 line-through block">₹449</span>
+              <span id="drawer-item-price" class="font-extrabold text-sm text-stone-900">₹349</span>
             </div>
           </div>
         </div>
@@ -352,7 +346,7 @@
       <div class="space-y-1.5 text-xs text-stone-600">
         <div class="flex justify-between">
           <span>Standard Price (COD)</span>
-          <span id="cart-summary-mrp">₹399</span>
+          <span id="cart-summary-mrp">₹449</span>
         </div>
         <div class="flex justify-between text-emerald-700 font-medium">
           <span>UPI Prepaid Discount</span>
@@ -367,7 +361,7 @@
             <span>Prepaid Total (UPI)</span>
             <span class="block text-[10px] font-normal text-stone-500">Includes all taxes</span>
           </div>
-          <span id="cart-summary-total">₹299</span>
+          <span id="cart-summary-total">₹349</span>
         </div>
       </div>
 
@@ -403,7 +397,7 @@
                 <span class="text-xs font-bold text-stone-900">Instant UPI</span>
                 <span class="bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">SAVE ₹100</span>
               </div>
-              <span id="form-upi-price" class="font-extrabold text-sm text-stone-900 mt-1">₹299</span>
+              <span id="form-upi-price" class="font-extrabold text-sm text-stone-900 mt-1">₹349</span>
               <span class="text-[10px] text-emerald-700 font-medium">Flat ₹100 Off applied</span>
             </label>
 
@@ -412,7 +406,7 @@
                 <span class="text-xs font-bold text-stone-900">Cash on Delivery</span>
                 <span class="bg-stone-200 text-stone-700 text-[9px] font-bold px-1.5 py-0.5 rounded uppercase">COD</span>
               </div>
-              <span id="form-cod-price" class="font-extrabold text-sm text-stone-900 mt-1">₹399</span>
+              <span id="form-cod-price" class="font-extrabold text-sm text-stone-900 mt-1">₹449</span>
               <span class="text-[10px] text-stone-500">Pay cash upon delivery</span>
             </label>
           </div>
@@ -460,7 +454,7 @@
         <div class="pt-2">
           <button type="submit" id="submit-order-btn" class="w-full bg-brand-black hover:bg-stone-800 text-white py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.99]">
             <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
-            <span id="shipping-btn-text">PAY & CONFIRM ORDER VIA UPI — ₹299</span>
+            <span id="shipping-btn-text">PAY & CONFIRM ORDER VIA UPI — ₹349</span>
           </button>
           <p id="gateway-hint-text" class="text-[10px] text-center text-stone-400 mt-2">Official 256-Bit Razorpay Gateway (UPI, Cards, NetBanking)</p>
         </div>
@@ -496,7 +490,7 @@
         </div>
         <div class="flex justify-between">
           <span class="text-stone-500">Total Amount:</span>
-          <span id="success-amount" class="font-black text-stone-900">₹299</span>
+          <span id="success-amount" class="font-black text-stone-900">₹349</span>
         </div>
         <div class="flex justify-between">
           <span class="text-stone-500">Delivery Status:</span>
@@ -743,15 +737,15 @@
     }
 
     // Pricing Model:
-    // Pack 1: MRP 399 | COD 399 | UPI 299 (25% off)
-    // Pack 2: MRP 799 | COD 655 | UPI 555 (31% off)
+    // Pack 1: MRP 449 | COD 449 | UPI 349 (22% off)
+    // Pack 2: MRP 899 | COD 699 | UPI 599 (33% off)
     let selectedPack = 1;
     let selectedQuantity = 1;
     let chosenPaymentMode = "upi";
 
     const variants = {
-      1: { name: "Pack of 1 (Single User Kit)", upiPrice: 299, codPrice: 399, mrp: 399, discountPct: "25% OFF" },
-      2: { name: "Pack of 2 (Double Value Kit)", upiPrice: 555, codPrice: 655, mrp: 799, discountPct: "31% OFF" }
+      1: { name: "Pack of 1 (Single User Kit)", upiPrice: 349, codPrice: 449, mrp: 449, discountPct: "22% OFF" },
+      2: { name: "Pack of 2 (Double Value Kit)", upiPrice: 599, codPrice: 699, mrp: 899, discountPct: "33% OFF" }
     };
 
     function recalculateAll() {
@@ -1019,13 +1013,6 @@
         alert("Payment was not completed: " + response.error.description);
       });
       rzp.open();
-    }
-
-    function changeLocation() {
-      const pin = prompt("Enter your Delivery Pincode:", "821307");
-      if (pin) {
-        document.getElementById("nav-location").innerText = "PIN: " + pin;
-      }
     }
 
     recalculateAll();
